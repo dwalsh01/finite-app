@@ -11,9 +11,8 @@ const LoginPage: React.FC = () => {
             <div className="w-full xl:w-3/4 lg:w-11/12 flex">
               <div
                 className="w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg"
-                style={{ background: `${tailwindTheme.colors.blue[500]}` }}
+                style={{ background: `${tailwindTheme.colors.green[500]}` }}
               />
-
               <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
                 <h3 className="pt-4 text-2xl text-center">Login</h3>
                 <LoginForm />

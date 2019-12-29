@@ -2,11 +2,7 @@
 
 @responsive {
   .bg-gradient-white-to-green {
-    background-image: linear-gradient(
-      to right,
-      config('colors.white'),
-      config('colors.green.500')
-    );
+    background-image: linear-gradient(to right, config('colors.white'), config('colors.green.500'));
   }
 }
 

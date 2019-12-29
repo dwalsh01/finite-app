@@ -2,10 +2,10 @@ import React from 'react';
 import { RouteComponentProps, withRouter, NavLink } from 'react-router-dom';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, Form } from 'formik';
-import REGISTER_MUTATION from '../../queries/RegisterUser';
-import { RegisterMutation, RegisterMutationVariables } from '../../types/RegisterMutation';
 import ME_QUERY from '../../queries/GetUser';
 import UserValidation from '../../yup/UserValidation';
+import LOGIN_MUTATION from '../../queries/LoginUser';
+import { LoginMutationVariables, LoginMutation } from '../../types/LoginMutation';
 
 interface LoginFormValues {
   email: string;
@@ -13,23 +13,23 @@ interface LoginFormValues {
 }
 const LForm: React.FC<RouteComponentProps> = ({ history }) => {
   const client = useApolloClient();
-  const [mutate] = useMutation<RegisterMutation, RegisterMutationVariables>(REGISTER_MUTATION, {
+  const [mutate] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, {
     update(cache, { data }) {
-      if (!data?.register?.registered || !data.register.user) {
+      if (!data || !data?.login) {
         return;
       }
       cache.writeQuery({
         query: ME_QUERY,
-        data: { me: data.register.user },
+        data: { me: data.login },
       });
     },
   });
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={UserValidation}
       onSubmit={async (values: LoginFormValues, actions) => {
-        console.log(values);
         if (client) {
           client.resetStore();
         }
@@ -37,7 +37,7 @@ const LForm: React.FC<RouteComponentProps> = ({ history }) => {
           variables: { ...values },
         });
         actions.setSubmitting(false);
-        history.push('/dashboard');
+        history.push('/home');
       }}
     >
       {(formikBag: FormikProps<LoginFormValues>) => (
@@ -73,7 +73,7 @@ const LForm: React.FC<RouteComponentProps> = ({ history }) => {
           </div>
           <div className="mb-6 text-center">
             <button
-              className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              className="w-full px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
               type="submit"
               disabled={formikBag.isSubmitting || !formikBag.isValid}
               onClick={() => formikBag.handleSubmit}
@@ -84,7 +84,7 @@ const LForm: React.FC<RouteComponentProps> = ({ history }) => {
           <hr className="mb-6 border-t" />
           <div className="text-center">
             <NavLink
-              className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+              className="inline-block text-sm text-green-500 align-baseline hover:text-green-800"
               to="/register"
             >
               Create an Account!

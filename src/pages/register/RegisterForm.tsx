@@ -2,10 +2,10 @@ import React from 'react';
 import { RouteComponentProps, withRouter, NavLink } from 'react-router-dom';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, Form } from 'formik';
-import { LoginMutation, LoginMutationVariables } from '../../types/LoginMutation';
 import ME_QUERY from '../../queries/GetUser';
 import UserValidation from '../../yup/UserValidation';
-import LOGIN_MUTATION from '../../queries/LoginUser';
+import { RegisterMutation, RegisterMutationVariables } from '../../types/RegisterMutation';
+import REGISTER_MUTATION from '../../queries/RegisterUser';
 
 interface RegisterFormValues {
   email: string;
@@ -13,14 +13,14 @@ interface RegisterFormValues {
 }
 const RForm: React.FC<RouteComponentProps> = ({ history }) => {
   const client = useApolloClient();
-  const [mutate] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, {
+  const [mutate] = useMutation<RegisterMutation, RegisterMutationVariables>(REGISTER_MUTATION, {
     update(cache, { data }) {
-      if (!data || !data?.login) {
+      if (!data?.register?.registered || !data.register.user) {
         return;
       }
       cache.writeQuery({
         query: ME_QUERY,
-        data: { me: data.login },
+        data: { me: data.register.user },
       });
     },
   });
