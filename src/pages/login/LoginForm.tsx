@@ -2,9 +2,9 @@ import React from 'react';
 import { RouteComponentProps, withRouter, NavLink } from 'react-router-dom';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, Form } from 'formik';
-import ME_QUERY from '../../queries/GetUser';
+import ME_QUERY from '../../graphql/GetUser';
 import UserValidation from '../../yup/UserValidation';
-import LOGIN_MUTATION from '../../queries/LoginUser';
+import LOGIN_MUTATION from '../../graphql/LoginUser';
 import { LoginMutationVariables, LoginMutation } from '../../types/LoginMutation';
 
 interface LoginFormValues {

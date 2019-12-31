@@ -1,12 +1,12 @@
 import { IResolvers } from 'apollo-server-express';
-import { User } from './entity/User';
-import { Expenses } from './entity/Expenses';
 import { getMongoManager, getMongoRepository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as mongodb from 'mongodb';
 import { eachDay, getMonth, getYear, lastDayOfMonth } from 'date-fns';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
+import { Expenses } from './entity/Expenses';
+import { User } from './entity/User';
 
 const resolvers: IResolvers = {
   Query: {
@@ -27,7 +27,7 @@ const resolvers: IResolvers = {
       const days = eachDay(first, last);
 
       const user = await User.findOne(req.session.userId);
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       const expensesThisMonth: any[] = [];
       if (user) {
         if (user.expenses) {
@@ -43,25 +43,26 @@ const resolvers: IResolvers = {
       }
       const res = {
         daysOfMonth: days,
-        expensesThisMonth: expensesThisMonth,
+        expensesThisMonth,
       };
       return res;
     },
   },
   Mutation: {
-    register: async (_, { email, password }) => {
+    register: async (_, { email, password }, { req }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = User.create({ email, password: hashedPassword });
-      const manager = getMongoManager();
       const userRepo = getMongoRepository(User);
+      const manager = getMongoManager();
       const checkUser = await userRepo.findOne({
         where: { email },
       });
       if (!checkUser) {
+        const user = User.create({ email, password: hashedPassword });
         await manager.save(user);
+        req.session.userId = user.id;
         return {
           registered: true,
-          user: user,
+          user,
         };
       }
       return {
@@ -70,6 +71,7 @@ const resolvers: IResolvers = {
       };
     },
     login: async (_, { email, password }, { req }) => {
+      // TODO: update this logic, make it better, return an object instead
       const user = await User.findOne({ where: { email } });
       if (!user) {
         return null;

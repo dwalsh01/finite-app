@@ -600,17 +600,8 @@ video {
 }
 
 .bg-gradient-white-to-green {
-  background-image: -webkit-gradient(
-      linear,
-      left top, right top,
-      from(config('colors.white')),
-      to(config('colors.green.500'))
-    );
-  background-image: linear-gradient(
-      to right,
-      config('colors.white'),
-      config('colors.green.500')
-    );
+  background-image: -webkit-gradient(linear, left top, right top, from(config('colors.white')), to(config('colors.green.500')));
+  background-image: linear-gradient(to right, config('colors.white'), config('colors.green.500'));
 }
 
 .container {
@@ -11403,17 +11394,8 @@ video {
 
 @media (min-width: 640px) {
   .sm\:bg-gradient-white-to-green {
-    background-image: -webkit-gradient(
-      linear,
-      left top, right top,
-      from(config('colors.white')),
-      to(config('colors.green.500'))
-    );
-    background-image: linear-gradient(
-      to right,
-      config('colors.white'),
-      config('colors.green.500')
-    );
+    background-image: -webkit-gradient(linear, left top, right top, from(config('colors.white')), to(config('colors.green.500')));
+    background-image: linear-gradient(to right, config('colors.white'), config('colors.green.500'));
   }
 
   .sm\:sr-only {
@@ -22179,17 +22161,8 @@ video {
 
 @media (min-width: 768px) {
   .md\:bg-gradient-white-to-green {
-    background-image: -webkit-gradient(
-      linear,
-      left top, right top,
-      from(config('colors.white')),
-      to(config('colors.green.500'))
-    );
-    background-image: linear-gradient(
-      to right,
-      config('colors.white'),
-      config('colors.green.500')
-    );
+    background-image: -webkit-gradient(linear, left top, right top, from(config('colors.white')), to(config('colors.green.500')));
+    background-image: linear-gradient(to right, config('colors.white'), config('colors.green.500'));
   }
 
   .md\:sr-only {
@@ -32955,17 +32928,8 @@ video {
 
 @media (min-width: 1024px) {
   .lg\:bg-gradient-white-to-green {
-    background-image: -webkit-gradient(
-      linear,
-      left top, right top,
-      from(config('colors.white')),
-      to(config('colors.green.500'))
-    );
-    background-image: linear-gradient(
-      to right,
-      config('colors.white'),
-      config('colors.green.500')
-    );
+    background-image: -webkit-gradient(linear, left top, right top, from(config('colors.white')), to(config('colors.green.500')));
+    background-image: linear-gradient(to right, config('colors.white'), config('colors.green.500'));
   }
 
   .lg\:sr-only {
@@ -43731,17 +43695,8 @@ video {
 
 @media (min-width: 1280px) {
   .xl\:bg-gradient-white-to-green {
-    background-image: -webkit-gradient(
-      linear,
-      left top, right top,
-      from(config('colors.white')),
-      to(config('colors.green.500'))
-    );
-    background-image: linear-gradient(
-      to right,
-      config('colors.white'),
-      config('colors.green.500')
-    );
+    background-image: -webkit-gradient(linear, left top, right top, from(config('colors.white')), to(config('colors.green.500')));
+    background-image: linear-gradient(to right, config('colors.white'), config('colors.green.500'));
   }
 
   .xl\:sr-only {

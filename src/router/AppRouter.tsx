@@ -1,17 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import Navigation from '../components/navigation/Navigation';
 import AuthRoute from './AuthRoute';
 import LoginPage from '../pages/login/LoginPage';
 import RegisterPage from '../pages/register/RegisterPage';
 import LandingPage from '../pages/landing/LandingPage';
+import HomePage from '../pages/home/HomePage';
 
-const Test = () => (
-  <div>
-    <Navigation />
-    <div>Authorised</div>
-  </div>
-);
 const AppRouter = () => (
   <Router>
     <Switch>
@@ -19,7 +13,7 @@ const AppRouter = () => (
       <Route exact path="/test" render={() => <LandingPage />} />
       <Route exact path="/login" render={() => <LoginPage />} />
       <Route exact path="/register" render={() => <RegisterPage />} />
-      <AuthRoute exact path="/home" component={Test} />
+      <AuthRoute exact path="/home" component={HomePage} />
       <Redirect to="/" />
     </Switch>
   </Router>

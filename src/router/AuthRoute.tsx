@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProps, Route, RouteComponentProps, Redirect } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import ME_QUERY from '../queries/GetUser';
+import ME_QUERY from '../graphql/GetUser';
 import { MeQuery } from '../types/MeQuery';
 
 const AuthRoute: React.FC<RouteProps> = ({ component, ...rest }: RouteProps) => {

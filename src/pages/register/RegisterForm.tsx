@@ -2,10 +2,10 @@ import React from 'react';
 import { RouteComponentProps, withRouter, NavLink } from 'react-router-dom';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, Form } from 'formik';
-import ME_QUERY from '../../queries/GetUser';
+import ME_QUERY from '../../graphql/GetUser';
 import UserValidation from '../../yup/UserValidation';
 import { RegisterMutation, RegisterMutationVariables } from '../../types/RegisterMutation';
-import REGISTER_MUTATION from '../../queries/RegisterUser';
+import REGISTER_MUTATION from '../../graphql/RegisterUser';
 
 interface RegisterFormValues {
   email: string;

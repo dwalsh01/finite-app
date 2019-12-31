@@ -41,7 +41,7 @@
     "eject": "react-app-rewired eject",
     "server": "cd server && yarn start",
     "schema:download": "apollo schema:download schema.json --endpoint=http://localhost:4000/graphql",
-    "codegen:generate": "apollo codegen:generate --localSchemaFile=schema.json --queries=./src/queries/*.ts --outputFlat --target=typescript src/types",
+    "codegen:generate": "apollo codegen:generate --localSchemaFile=schema.json --queries=./src/graphql/*.ts --outputFlat --target=typescript src/types",
     "gen:types": "yarn run schema:download && yarn run codegen:generate"
   },
   "eslintConfig": {

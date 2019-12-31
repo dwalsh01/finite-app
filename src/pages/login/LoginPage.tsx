@@ -1,8 +1,19 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { Redirect } from 'react-router';
 import tailwindTheme from '../../styles/tailwind-theme';
 import LoginForm from './LoginForm';
+import ME_QUERY from '../../graphql/GetUser';
+import { MeQuery } from '../../types/MeQuery';
 
 const LoginPage: React.FC = () => {
+  const { data, loading } = useQuery<MeQuery>(ME_QUERY);
+  if (loading) {
+    return null;
+  }
+  if (data?.me) {
+    return <Redirect to="/home" />;
+  }
   return (
     <div className="overflow-hidden flex items-center justify-center">
       <div className="h-screen w-screen bg-gray-400">

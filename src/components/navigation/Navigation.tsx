@@ -1,40 +1,33 @@
 import React from 'react';
-// import { useQuery } from '@apollo/react-hooks';
-// import Button from '../button/Button';
+import { useLocation } from 'react-router';
 import SLink from '../link/Link';
-import Button from '../button/Button';
-// import ME_QUERY from '../../queries/GetUser';
-// import { MeQuery } from '../../types/MeQuery';
+import LogoutButtonCheck from '../button/LogoutButton';
 
-// TODO: standardise the buttons in the application
+// different navbar for landing over logged in ?
 const Navigation: React.FC = () => {
   const [hidden, setHidden] = React.useState(true);
-  // const { data, loading } = useQuery<MeQuery>(ME_QUERY);
-  // const userCheck = () => {
-  //   if (loading) {
-  //     return null;
-  //   }
-  //   if (data && data.me) {
-  //     return <Button primary>Logout</Button>;
-  //   }
-  //   return <Button primary>Login</Button>;
-  // };
-  React.useEffect(() => {
-    console.log('button state changed', hidden);
-  }, [hidden]);
-
+  const { pathname } = useLocation();
   return (
     <div className="flex flex-col md:flex-row items-center justify-between py-6 relative">
       <h3 className="text-2xl font-bold uppercase text-gray-900">FINITE</h3>
       <nav className={`${hidden ? 'hidden' : 'block text-center'} md:flex text-lg`}>
-        <SLink to="/">Home</SLink>
-        <SLink to="/">Services</SLink>
-        <SLink to="/">About</SLink>
-        <SLink to="/">Contact</SLink>
-        <SLink to="/">FAQ</SLink>
-        <Button primary to="/login">
-          Sign Up
-        </Button>
+        {pathname !== '/' ? (
+          <>
+            <SLink to="/home">Home</SLink>
+            <SLink to="/home">Expenses</SLink>
+            <SLink to="/home">Trends</SLink>
+            <SLink to="/home">TBD</SLink>
+          </>
+        ) : (
+          <>
+            <SLink to="/home">Home</SLink>
+            <SLink to="/">Services</SLink>
+            <SLink to="/">About</SLink>
+            <SLink to="/">Contact</SLink>
+            <SLink to="/">FAQ</SLink>
+          </>
+        )}
+        <LogoutButtonCheck />
       </nav>
       <button
         className="flex md:hidden flex-col absolute top-0 right-0 p-4 mt-5"
