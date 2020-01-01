@@ -118,12 +118,15 @@ const resolvers: IResolvers = {
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
+    // eslint-disable-next-line
     parseValue(value: any) {
       return new Date(value); // value from the client
     },
+    // eslint-disable-next-line
     serialize(value: any) {
       return new Date(value); // value sent to the client
     },
+    // eslint-disable-next-line
     parseLiteral(ast: any) {
       if (ast.kind === Kind.INT) {
         return parseInt(ast.value, 10); // ast value is always in string format

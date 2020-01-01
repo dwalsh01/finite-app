@@ -85,19 +85,11 @@ const RForm: React.FC<RouteComponentProps> = ({ history }) => {
           <div className="text-center">
             <NavLink
               className="inline-block text-sm text-orange-500 align-baseline hover:text-orange-800"
-              to="/register"
+              to="/login"
             >
-              Create an Account!
+              Already got an account? Login!
             </NavLink>
           </div>
-          {/* <div className="text-center">
-                <a
-                  className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                  href="./forgot-passwrd"
-                >
-                  Forgot Password?
-                </a>
-              </div> */}
         </Form>
       )}
     </Formik>
