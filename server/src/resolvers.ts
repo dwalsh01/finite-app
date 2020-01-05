@@ -41,11 +41,10 @@ const resolvers: IResolvers = {
           });
         }
       }
-      const res = {
+      return {
         daysOfMonth: days,
         expensesThisMonth,
       };
-      return res;
     },
   },
   Mutation: {

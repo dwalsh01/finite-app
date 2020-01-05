@@ -39,6 +39,7 @@ module.exports = {
     "tw": true
   },
   "rules": {
+    "camelcase": 0,
     "react/jsx-props-no-spreading": 0,
     "import/no-extraneous-dependencies": 0,
     'react/jsx-filename-extension': 0,

@@ -5,14 +5,15 @@ import LoginPage from '../pages/login/LoginPage';
 import RegisterPage from '../pages/register/RegisterPage';
 import LandingPage from '../pages/landing/LandingPage';
 import HomePage from '../pages/home/HomePage';
+import AddExpensesPage from '../pages/expenses/AddExpensesPage';
 
 const AppRouter = () => (
   <Router>
     <Switch>
       <Route exact path="/" component={LandingPage} />
-      <Route exact path="/test" render={() => <LandingPage />} />
-      <Route exact path="/login" render={() => <LoginPage />} />
-      <Route exact path="/register" render={() => <RegisterPage />} />
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/register" component={RegisterPage} />
+      <Route exact path="/addExpense" component={AddExpensesPage} />
       <AuthRoute exact path="/home" component={HomePage} />
       <Redirect to="/" />
     </Switch>

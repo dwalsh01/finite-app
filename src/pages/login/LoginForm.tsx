@@ -31,7 +31,7 @@ const LForm: React.FC<RouteComponentProps> = ({ history }) => {
       validationSchema={UserValidation}
       onSubmit={async (values: LoginFormValues, actions) => {
         if (client) {
-          client.resetStore();
+          await client.resetStore();
         }
         await mutate({
           variables: { ...values },
@@ -93,7 +93,7 @@ const LForm: React.FC<RouteComponentProps> = ({ history }) => {
           {/* <div className="text-center">
                 <a
                   className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                  href="./forgot-passwrd"
+                  href="./forgot-password"
                 >
                   Forgot Password?
                 </a>
