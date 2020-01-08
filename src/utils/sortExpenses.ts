@@ -16,7 +16,7 @@ const MONTH_NAMES = [
   'December',
 ];
 
-export function groupDatesAndKeys(expenses: GetExpenses_me_expenses[]) {
+function groupDatesAndKeys(expenses: GetExpenses_me_expenses[]) {
   const groupByDate = _.mapValues(_.groupBy(expenses, 'dateOfExpense'));
   const dates = Object.keys(groupByDate);
   return { groupByDate, dates };

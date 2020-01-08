@@ -41,7 +41,7 @@ const AddExpenseForm: React.FC = () => {
       }}
     >
       {(formikBag: FormikProps<FormValues>) => (
-        <Form className="h-full px-8 pt-6 bg-white">
+        <Form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="amount">
               Amount
@@ -114,7 +114,7 @@ const AddExpenseForm: React.FC = () => {
           </div>
           <div className="mb-6 text-center">
             <button
-              className="w-full px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
+              className="w-full px-4 py-2 font-bold text-white bg-purple-500 rounded-full hover:bg-purple-700 focus:outline-none focus:shadow-outline"
               type="submit"
               disabled={formikBag.isSubmitting || !formikBag.isValid}
               onClick={() => formikBag.handleSubmit}
@@ -128,6 +128,12 @@ const AddExpenseForm: React.FC = () => {
               <div className="inline-block text-sm text-green-500 align-baseline">
                 Successfully Added Expense!
               </div>
+              <button
+                type="button"
+                className="w-full px-4 py-2 font-bold text-white bg-purple-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
+              >
+                Submit
+              </button>
             </div>
           )}
         </Form>

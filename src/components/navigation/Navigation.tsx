@@ -14,7 +14,7 @@ const Navigation: React.FC = () => {
         {pathname !== '/' ? (
           <>
             <SLink to="/home">Home</SLink>
-            <SLink to="/home">Expenses</SLink>
+            <SLink to="/addExpense">Expenses</SLink>
             <SLink to="/home">Trends</SLink>
             <SLink to="/home">TBD</SLink>
           </>

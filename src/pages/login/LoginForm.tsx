@@ -90,14 +90,6 @@ const LForm: React.FC<RouteComponentProps> = ({ history }) => {
               Create an Account!
             </NavLink>
           </div>
-          {/* <div className="text-center">
-                <a
-                  className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                  href="./forgot-password"
-                >
-                  Forgot Password?
-                </a>
-              </div> */}
         </Form>
       )}
     </Formik>
