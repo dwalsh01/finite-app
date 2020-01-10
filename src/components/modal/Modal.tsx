@@ -1,4 +1,5 @@
 import React from 'react';
+import AddExpenseForm from '../expenses/AddExpenseForm';
 
 const Modal: React.FC = () => {
   const [toggle, setToggle] = React.useState(false);
@@ -18,13 +19,13 @@ const Modal: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
   return (
-    <div className="bg-gray-200 flex items-center justify-center h-screen overflow-auto">
+    <div className="flex items-center justify-center overflow-auto text-base">
       <button
         type="button"
-        className="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full"
+        className="modal-open px-4 bg-indigo-200 p-3 mt-5 text-white hover:bg-indigo-300 text-indigo-700 rounded-full uppercase"
         onClick={() => setToggle(prev => !prev)}
       >
-        Open Modal
+        Add An Expense
       </button>
 
       <div
@@ -56,7 +57,7 @@ const Modal: React.FC = () => {
 
           <div className="modal-content py-4 text-left px-6 z-50">
             <div className="flex justify-between items-center pb-3">
-              <p className="text-2xl font-bold">Simple Modal!</p>
+              <p className="text-2xl font-bold">Add an Expense</p>
               {/* eslint-disable-next-line */}
               <div
                 className="modal-close cursor-pointer z-50"
@@ -76,13 +77,9 @@ const Modal: React.FC = () => {
               </div>
             </div>
 
-            <p>Modal content can go here</p>
-            <p>...</p>
-            <p>...</p>
-            <p>...</p>
-            <p>...</p>
+            <AddExpenseForm />
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end">
               <button
                 type="button"
                 className="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
@@ -91,7 +88,7 @@ const Modal: React.FC = () => {
               </button>
               <button
                 type="button"
-                className="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400"
+                className="modal-close px-4 bg-indigo-200 p-3 text-white hover:bg-indigo-300 text-indigo-700 rounded-full uppercase"
                 onClick={() => setToggle(prev => !prev)}
               >
                 Close

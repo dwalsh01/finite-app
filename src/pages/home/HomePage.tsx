@@ -29,12 +29,12 @@ const HomePage: React.FC = () => {
               {`$${totalForTheMonth(data.getExpenses.expensesThisMonth).amount}`}
             </span>
             <span className="font-light"> spent this month</span>
+            <Modal />
           </div>
           <div className="flex flex-wrap pt-5">
             <div className="w-full md:w-1/2 mb-4">
-              <Modal />
+              <ExamplePC />
             </div>
-
             <div className="w-full md:w-1/2 mb-4">
               <ExamplePC />
             </div>

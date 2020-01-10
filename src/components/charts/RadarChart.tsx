@@ -72,7 +72,7 @@ const data3 = [
 
 export const ExamplePC = () => {
   return (
-    <div style={{ width: '100%', height: 300, zIndex: 1 }}>
+    <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>
         <PieChart>
           <Pie dataKey="value" data={data3} fill="#8884d8" label />

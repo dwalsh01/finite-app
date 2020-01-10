@@ -41,7 +41,7 @@ const AddExpenseForm: React.FC = () => {
       }}
     >
       {(formikBag: FormikProps<FormValues>) => (
-        <Form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+        <Form className="px-8 pt-6  mb-4 bg-white">
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="amount">
               Amount
