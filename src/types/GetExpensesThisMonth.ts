@@ -8,6 +8,7 @@
 
 export interface GetExpensesThisMonth_getExpenses_expensesThisMonth {
   __typename: "Expense";
+  id: string;
   dateOfExpense: string;
   sectorOfExpense: string;
   description: string;

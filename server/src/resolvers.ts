@@ -5,8 +5,8 @@ import * as mongodb from 'mongodb';
 import { eachDay, getMonth, getYear, lastDayOfMonth } from 'date-fns';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
-import { Expenses } from './entity/Expenses';
-import { User } from './entity/User';
+import Expenses from './entity/Expenses';
+import User from './entity/User';
 
 const resolvers: IResolvers = {
   Query: {
@@ -100,7 +100,13 @@ const resolvers: IResolvers = {
       });
       if (user) {
         let { expenses } = user;
+        // const id = new mongodb.ObjectID();
         const expense = new Expenses(dateOfExpense, sectorOfExpense, description, amount);
+        expense.amount = amount;
+        expense.dateOfExpense = dateOfExpense;
+        expense.description = description;
+        expense.sectorOfExpense = sectorOfExpense;
+        console.log(expense);
         if (expenses) {
           expenses.push(expense);
         } else {

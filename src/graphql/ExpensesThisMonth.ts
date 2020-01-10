@@ -5,6 +5,7 @@ const GET_THIS_MONTH_EXPENSES = gql`
     getExpenses {
       daysOfMonth
       expensesThisMonth {
+        id
         dateOfExpense
         sectorOfExpense
         description

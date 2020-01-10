@@ -8,7 +8,7 @@
 
 export interface RegisterMutation_register_user_expenses {
   __typename: "Expense";
-  id: string | null;
+  id: string;
   dateOfExpense: string;
   sectorOfExpense: string;
   description: string;

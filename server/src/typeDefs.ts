@@ -9,7 +9,7 @@ const typeDefs = gql`
     expenses: [Expense!]
   }
   type Expense {
-    id: ID
+    id: ID!
     dateOfExpense: String!
     sectorOfExpense: String!
     description: String!

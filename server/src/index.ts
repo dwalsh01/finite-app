@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 import * as session from 'express-session';
 import resolvers from './resolvers';
 import typeDefs from './typeDefs';
-import { User } from './entity/User';
+import User from './entity/User';
 
 dotenv.config();
 const startServer = async () => {

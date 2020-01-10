@@ -22,7 +22,7 @@ const Modal: React.FC = () => {
     <div className="flex items-center justify-center overflow-auto text-base">
       <button
         type="button"
-        className="modal-open px-4 bg-indigo-200 p-3 mt-5 text-white hover:bg-indigo-300 text-indigo-700 rounded-full uppercase"
+        className="modal-open px-4 bg-indigo-200 p-3 my-2 text-white hover:bg-indigo-300 text-indigo-700 rounded-full uppercase"
         onClick={() => setToggle(prev => !prev)}
       >
         Add An Expense

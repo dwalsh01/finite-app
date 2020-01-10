@@ -5,6 +5,7 @@ const GET_ALL_EXPENSES = gql`
     me {
       id
       expenses {
+        id
         dateOfExpense
         sectorOfExpense
         description

@@ -7,6 +7,7 @@ import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
 import { totalForTheMonth } from '../../utils/sortExpenses';
 import Button from '../../components/button/Button';
 import Modal from '../../components/modal/Modal';
+import numberWithCommas from '../../utils/formatAmount';
 
 const HomePage: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);
@@ -24,9 +25,9 @@ const HomePage: React.FC = () => {
         </div>
       ) : (
         <div>
-          <div className="container mx-auto text-xl text-center sm:p-10 bg-green-200 shadow-md">
+          <div className="container mx-auto text-xl text-center p-10 bg-green-200 shadow-md">
             <span className="font-extrabold">
-              {`$${totalForTheMonth(data.getExpenses.expensesThisMonth).amount}`}
+              {`$${numberWithCommas(totalForTheMonth(data.getExpenses.expensesThisMonth).amount)}`}
             </span>
             <span className="font-light"> spent this month</span>
             <Modal />

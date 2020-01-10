@@ -8,6 +8,7 @@
 
 export interface GetExpenses_me_expenses {
   __typename: "Expense";
+  id: string;
   dateOfExpense: string;
   sectorOfExpense: string;
   description: string;

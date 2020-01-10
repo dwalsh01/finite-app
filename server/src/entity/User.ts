@@ -1,8 +1,8 @@
 import { Entity, ObjectIdColumn, ObjectID, Column, BaseEntity } from 'typeorm';
-import { Expenses } from './Expenses';
+import Expenses from './Expenses';
 
 @Entity('users')
-export class User extends BaseEntity {
+class User extends BaseEntity {
   @ObjectIdColumn()
   id: ObjectID;
 
@@ -15,3 +15,5 @@ export class User extends BaseEntity {
   @Column(() => Expenses)
   expenses: Expenses[];
 }
+
+export default User;

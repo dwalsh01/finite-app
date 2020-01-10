@@ -1,7 +1,10 @@
 import { Column } from 'typeorm';
-// import * as uniqid from 'uniqid';
+import * as uniqid from 'uniqid';
 
-export class Expenses {
+class Expenses {
+  @Column('string')
+  id: string;
+
   @Column('text')
   dateOfExpense: string;
 
@@ -15,9 +18,12 @@ export class Expenses {
   amount: number;
 
   constructor(dateOfExpense: string, sectorOfExpense: string, description: string, amount: number) {
+    this.id = uniqid();
     this.dateOfExpense = dateOfExpense;
     this.sectorOfExpense = sectorOfExpense;
     this.description = description;
     this.amount = amount;
   }
 }
+
+export default Expenses;

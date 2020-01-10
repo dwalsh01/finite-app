@@ -18,10 +18,11 @@ const ViewExpensesPage: React.FC = () => {
       ) : (
         <>
           <h1 className="text-xl font-bold">We got expenses</h1>
-          <div className="flex flex-col items-center justify-center">
+          {/* <div className="flex flex-col items-center justify-center"> */}
+          <div className="flex flex-wrap justify-center">
             {data.me.expenses.map(expense => {
               console.log(expense);
-              return <CardFull {...expense} />;
+              return <CardFull key={expense.id} {...expense} />;
             })}
           </div>
         </>
