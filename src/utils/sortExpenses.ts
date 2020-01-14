@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { GetExpenses_me_expenses } from '../types/GetExpenses';
+import { GetExpensesThisMonth_getExpenses_expensesThisMonth } from '../types/GetExpensesThisMonth';
 
 const MONTH_NAMES = [
   'January',
@@ -16,7 +17,7 @@ const MONTH_NAMES = [
   'December',
 ];
 
-function groupDatesAndKeys(expenses: GetExpenses_me_expenses[]) {
+export function groupDatesAndKeys(expenses: GetExpenses_me_expenses[]) {
   const groupByDate = _.mapValues(_.groupBy(expenses, 'dateOfExpense'));
   const dates = Object.keys(groupByDate);
   return { groupByDate, dates };
@@ -57,4 +58,39 @@ function totalForTheMonth(expenses: GetExpenses_me_expenses[]) {
   return total;
 }
 
-export { totalForTheMonth, sortDates };
+type SortProps = {
+  expenses: GetExpenses_me_expenses[];
+  nearest?: boolean;
+};
+
+const sortExpensesByDate = ({ expenses, nearest = false }: SortProps) => {
+  const sorted = expenses.sort((a, b) => {
+    return new Date(a.dateOfExpense).getTime() - new Date(b.dateOfExpense).getTime();
+  });
+  if (nearest) {
+    return sorted.reverse();
+  }
+  return sorted;
+};
+
+type SectorData = {
+  sector: string;
+  amount: number;
+};
+
+const sortExpensesForPC = (expenses: GetExpensesThisMonth_getExpenses_expensesThisMonth[]) => {
+  const sectors: SectorData[] = [];
+  expenses.forEach(expense => {
+    if (sectors.some(e => e.sector === expense.sectorOfExpense)) {
+      const index = sectors.findIndex(item => item.sector === expense.sectorOfExpense);
+      if (index !== -1) {
+        sectors[index] = { ...sectors[index], amount: expense.amount + sectors[index].amount };
+      }
+    } else {
+      sectors.push({ sector: expense.sectorOfExpense, amount: expense.amount });
+    }
+  });
+  return sectors;
+};
+
+export { totalForTheMonth, sortDates, sortExpensesByDate, sortExpensesForPC };

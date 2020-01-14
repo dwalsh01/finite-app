@@ -1,13 +1,18 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { Redirect } from 'react-router-dom';
-import Button from '../../components/button/Button';
+import { Redirect, NavLink } from 'react-router-dom';
+// import Button from '../../components/button/Button';
 import Navigation from '../../components/navigation/Navigation';
 import { MeQuery } from '../../types/MeQuery';
 import ME_QUERY from '../../graphql/GetUser';
 
 const LandingPage: React.FC = () => {
   const { data, loading } = useQuery<MeQuery>(ME_QUERY);
+
+  React.useEffect(() => {
+    document.title = 'Finite';
+  }, []);
+
   if (loading) {
     return null;
   }
@@ -32,10 +37,23 @@ const LandingPage: React.FC = () => {
                 congue scelerisque. Sed suscipit metu non iaculis semper consectetur adipiscing
                 elit.
               </p>
-              <Button to="/">Learn more</Button>
+              <div>
+                <NavLink
+                  className="bg-orange-200 hover:bg-orange-300 py-3 px-6 uppercase text-lg font-medium rounded-lg text-orange-700"
+                  to="/register"
+                >
+                  Register
+                </NavLink>
+                <NavLink
+                  className="ml-5 bg-green-200 hover:bg-green-300 py-3 px-6 uppercase text-lg font-medium rounded-lg text-green-700"
+                  to="/login"
+                >
+                  Login
+                </NavLink>
+              </div>
             </div>
-            <div className="mb-16 sm:mb-0 mt-8 sm:mt-0 sm:w-3/5 sm:pl-12">
-              <img src="/credit_card_3.svg" alt="logo" />
+            <div className="w-full sm:w-auto mb-16 sm:mb-0 mt-8 sm:mt-0 sm:w-3/5 sm:pl-12">
+              <img src="/credit_card_3.svg" className="h-64 sm:h-auto w-full" alt="logo" />
             </div>
           </div>
         </div>

@@ -7,24 +7,38 @@ import { AddExpenseMutation } from '../../types/AddExpenseMutation';
 import ADD_EXPENSE_MUTATION from '../../graphql/AddExpense';
 import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
 
-// TODO: decide on sectors of spending
 interface FormValues {
   dateOfExpense: string;
-  sectorOfExpense: 'Entertainment' | 'Business' | 'Schooling' | 'Retail' | 'Other';
+  sectorOfExpense:
+    | 'Entertainment'
+    | 'Health'
+    | 'Food'
+    | 'Education'
+    | 'Beauty'
+    | 'Fashion'
+    | 'Miscellaneous';
   amount: number;
   description: string;
 }
 
-const AddExpenseForm: React.FC = () => {
+interface AddExpenseProps {
+  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const AddExpenseForm: React.FC<AddExpenseProps> = ({ setToggle }) => {
   const today = new Date();
   const [mutate, { data }] = useMutation<AddExpenseMutation>(ADD_EXPENSE_MUTATION);
   const history = useHistory();
   const { pathname } = useLocation();
+  React.useEffect(() => {
+    if (data?.addExpense) {
+      setInterval(() => setToggle(false), 3000);
+    }
+  }, [data, setToggle]);
   return (
     <Formik
       initialValues={{
         dateOfExpense: format(today, 'yyyy-MM-dd'),
-        sectorOfExpense: 'Schooling',
+        sectorOfExpense: 'Entertainment',
         amount: 0,
         description: '',
       }}
@@ -82,10 +96,12 @@ const AddExpenseForm: React.FC = () => {
                   onChange={event => formikBag.setFieldValue('sectorOfExpense', event.target.value)}
                 >
                   <option>Entertainment</option>
-                  <option>Business</option>
-                  <option>Schooling</option>
-                  <option>Retail</option>
-                  <option>Other</option>
+                  <option>Health</option>
+                  <option>Food</option>
+                  <option>Education</option>
+                  <option>Fashion</option>
+                  <option>Beauty</option>
+                  <option>Miscellaneous</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg
@@ -128,12 +144,9 @@ const AddExpenseForm: React.FC = () => {
               <div className="inline-block text-sm text-green-500 align-baseline">
                 Successfully Added Expense!
               </div>
-              <button
-                type="button"
-                className="w-full px-4 py-2 font-bold text-white bg-purple-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
-              >
-                Submit
-              </button>
+              <div className="inline-block text-sm text-gray-500 align-baseline">
+                This will automatically close in 3 seconds
+              </div>
             </div>
           )}
         </Form>

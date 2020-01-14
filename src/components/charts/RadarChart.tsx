@@ -9,7 +9,11 @@ import {
   PieChart,
   Pie,
   Legend,
+  Cell,
+  Tooltip,
 } from 'recharts';
+import { GetExpensesThisMonth_getExpenses_expensesThisMonth } from '../../types/GetExpensesThisMonth';
+import { sortExpensesForPC } from '../../utils/sortExpenses';
 
 const data = [
   {
@@ -63,19 +67,41 @@ const ExampleRadarChart = () => (
   </ResponsiveContainer>
 );
 
-const data3 = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
+// const CustomTooltip = ({ active, payload, label }: any) => {
+//   if (active) {
+//     return (
+//       <div className="custom-tooltip">
+//         <p className="label">{`${label} : ${payload[0].value}`}</p>
+//         <p className="intro">{label}</p>
+//         <p className="desc">Anything you want can be displayed here.</p>
+//       </div>
+//     );
+//   }
 
-export const ExamplePC = () => {
+//   return null;
+// };
+
+interface PieChartProps {
+  expenses: GetExpensesThisMonth_getExpenses_expensesThisMonth[];
+}
+
+// TODO: update this to use tailwind colors
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+// This is the pie chart for expenses by sector
+export const ExamplePC: React.FC<PieChartProps> = ({ expenses }) => {
+  const sortedExpenses = sortExpensesForPC(expenses);
   return (
     <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>
         <PieChart>
-          <Pie dataKey="value" data={data3} fill="#8884d8" label />
+          <Pie dataKey="amount" data={sortedExpenses} nameKey="sector" fill="#8884d8" label>
+            {sortedExpenses.map((_, index) => (
+              // eslint-disable-next-line
+              <Cell fill={COLORS[index % COLORS.length]} key={index} />
+            ))}
+          </Pie>
+          <Legend verticalAlign="bottom" height={36} />
+          <Tooltip />
         </PieChart>
       </ResponsiveContainer>
     </div>

@@ -8,6 +8,11 @@ import { MeQuery } from '../../types/MeQuery';
 
 const LoginPage: React.FC = () => {
   const { data, loading } = useQuery<MeQuery>(ME_QUERY);
+
+  React.useEffect(() => {
+    document.title = 'Finite | Login';
+  }, []);
+
   if (loading) {
     return null;
   }
@@ -16,7 +21,7 @@ const LoginPage: React.FC = () => {
   }
   return (
     <div className="overflow-hidden flex items-center justify-center">
-      <div className="h-screen w-screen bg-gray-400">
+      <div className="h-screen w-screen bg-green-500 lg:bg-green-200">
         <div className="container mx-auto">
           <div className="flex justify-center px-6 my-12">
             <div className="w-full xl:w-3/4 lg:w-11/12 flex">

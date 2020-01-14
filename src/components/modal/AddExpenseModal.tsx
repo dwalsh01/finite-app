@@ -1,7 +1,7 @@
 import React from 'react';
 import AddExpenseForm from '../expenses/AddExpenseForm';
 
-const Modal: React.FC = () => {
+const AddExpenseModal: React.FC = () => {
   const [toggle, setToggle] = React.useState(false);
   // listener: (this: Window, ev: KeyboardEvent)
   const handleKeyDown = React.useCallback(
@@ -77,9 +77,9 @@ const Modal: React.FC = () => {
               </div>
             </div>
 
-            <AddExpenseForm />
+            <AddExpenseForm setToggle={setToggle} />
 
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <button
                 type="button"
                 className="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
@@ -93,7 +93,7 @@ const Modal: React.FC = () => {
               >
                 Close
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -101,4 +101,4 @@ const Modal: React.FC = () => {
   );
 };
 
-export default Modal;
+export default AddExpenseModal;

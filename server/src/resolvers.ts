@@ -102,11 +102,6 @@ const resolvers: IResolvers = {
         let { expenses } = user;
         // const id = new mongodb.ObjectID();
         const expense = new Expenses(dateOfExpense, sectorOfExpense, description, amount);
-        expense.amount = amount;
-        expense.dateOfExpense = dateOfExpense;
-        expense.description = description;
-        expense.sectorOfExpense = sectorOfExpense;
-        console.log(expense);
         if (expenses) {
           expenses.push(expense);
         } else {
