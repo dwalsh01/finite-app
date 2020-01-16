@@ -27,9 +27,15 @@ const typeDefs = gql`
     registered: Boolean!
     user: User
   }
+
+  type LoginResult {
+    user: User
+    error: String!
+    reason: String!
+  }
   type Mutation {
     register(email: String!, password: String!): Register!
-    login(email: String!, password: String!): User
+    login(email: String!, password: String!): LoginResult
     addExpense(
       dateOfExpense: String
       sectorOfExpense: String

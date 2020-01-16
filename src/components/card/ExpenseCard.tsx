@@ -19,18 +19,17 @@ const ExpenseCard: React.FC<GetExpenses_me_expenses> = ({
   sectorOfExpense,
 }: GetExpenses_me_expenses) => (
   <Card>
-    <div>
+    <div className="h-full">
       {/* image section */}
-      <img
-        className="h048 w-full object-cover"
-        src="https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80"
-        alt="Card Payment"
-      />
+      <img className="w-full object-cover" src="./undraw-online.svg" alt="Card Payment" />
+
       <div className="py-2 px-2">
-        <div className="flex content-center">
-          <h4 className="inline-block font-semibold text-lg">{`$${numberWithCommas(amount)}`}</h4>
+        <div className="flex items-center">
+          <h4 className="inline-block text-gray-700 font-medium text-lg">
+            {`$${numberWithCommas(amount)}`}
+          </h4>
           {isToday(dateOfExpense) && (
-            <span className="inline-block m-auto ml-2 bg-purple-200 text-purple-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">
+            <span className="inline-block px-2 mx-2 bg-purple-200 text-purple-800 text-xs rounded uppercase font-semibold tracking-wide">
               new
             </span>
           )}
@@ -43,11 +42,9 @@ const ExpenseCard: React.FC<GetExpenses_me_expenses> = ({
         <div className="flex items-baseline">
           <span className="text-gray-600 text-sm">{formatDate(dateOfExpense)}</span>
         </div>
-        <span className="block text-lg">{description}</span>
+        <span className="text-gray-700 text-base">{description}</span>
       </div>
-    </div>
-    <div className="px-2 py-1 text-sm bg-gray-100">
-      <span className="inline-block bg-gray-200 rounded-full px-3 py-1 my-1 text-sm font-semibold text-gray-700">
+      <span className="inline-block mb-2 ml-2 bg-gray-300 text-gray-800 text-xs p-1 rounded-full uppercase font-semibold tracking-wide">
         {`#${sectorOfExpense}`}
       </span>
     </div>

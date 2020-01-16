@@ -6,10 +6,17 @@
 // GraphQL mutation operation: LoginMutation
 // ====================================================
 
-export interface LoginMutation_login {
+export interface LoginMutation_login_user {
   __typename: "User";
   id: string;
   email: string;
+}
+
+export interface LoginMutation_login {
+  __typename: "LoginResult";
+  user: LoginMutation_login_user | null;
+  error: string;
+  reason: string;
 }
 
 export interface LoginMutation {

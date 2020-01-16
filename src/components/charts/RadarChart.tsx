@@ -11,9 +11,12 @@ import {
   Legend,
   Cell,
   Tooltip,
+  TooltipProps,
 } from 'recharts';
 import { GetExpensesThisMonth_getExpenses_expensesThisMonth } from '../../types/GetExpensesThisMonth';
 import { sortExpensesForPC } from '../../utils/sortExpenses';
+import numberWithCommas from '../../utils/formatAmount';
+import tailwindTheme from '../../styles/tailwind-theme';
 
 const data = [
   {
@@ -67,41 +70,73 @@ const ExampleRadarChart = () => (
   </ResponsiveContainer>
 );
 
-// const CustomTooltip = ({ active, payload, label }: any) => {
-//   if (active) {
-//     return (
-//       <div className="custom-tooltip">
-//         <p className="label">{`${label} : ${payload[0].value}`}</p>
-//         <p className="intro">{label}</p>
-//         <p className="desc">Anything you want can be displayed here.</p>
-//       </div>
-//     );
-//   }
-
-//   return null;
-// };
-
 interface PieChartProps {
   expenses: GetExpensesThisMonth_getExpenses_expensesThisMonth[];
 }
 
-// TODO: update this to use tailwind colors
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const RADIAN = Math.PI / 180;
+
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
+const CustomTooltip = ({ active, payload }: TooltipProps) => {
+  if (active) {
+    return (
+      <div className="shadow-lg bg-gray-100 rounded p-2 text-center">
+        <p className="text-lg font-semibold">
+          {`€${payload && numberWithCommas(payload[0].value)}`}
+        </p>
+        <p className="desc">Anything you want can be displayed here.</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const TWColors: any = {
+  Food: tailwindTheme.colors.green[500],
+  Entertainment: tailwindTheme.colors.blue[500],
+  Miscellaneous: tailwindTheme.colors.indigo[500],
+  Fashion: tailwindTheme.colors.pink[500],
+  Health: tailwindTheme.colors.purple[500],
+  Education: tailwindTheme.colors.teal[500],
+  Beauty: tailwindTheme.colors.yellow[500],
+};
+
 // This is the pie chart for expenses by sector
-export const ExamplePC: React.FC<PieChartProps> = ({ expenses }) => {
+export const ExpensesPieChart: React.FC<PieChartProps> = ({ expenses }) => {
   const sortedExpenses = sortExpensesForPC(expenses);
   return (
     <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>
         <PieChart>
-          <Pie dataKey="amount" data={sortedExpenses} nameKey="sector" fill="#8884d8" label>
-            {sortedExpenses.map((_, index) => (
-              // eslint-disable-next-line
-              <Cell fill={COLORS[index % COLORS.length]} key={index} />
-            ))}
+          <Pie
+            dataKey="amount"
+            data={sortedExpenses}
+            nameKey="sector"
+            fill="#8884d8"
+            labelLine={false}
+            label={renderCustomizedLabel}
+          >
+            {sortedExpenses.map((exp, index) => {
+              return (
+                // eslint-disable-next-line
+                <Cell fill={TWColors[exp.sector]} key={index} />
+              );
+            })}
           </Pie>
           <Legend verticalAlign="bottom" height={36} />
-          <Tooltip />
+          <Tooltip content={CustomTooltip} />
         </PieChart>
       </ResponsiveContainer>
     </div>

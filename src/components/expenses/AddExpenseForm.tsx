@@ -2,10 +2,10 @@ import React from 'react';
 import { Formik, Form, FormikProps } from 'formik';
 import { format } from 'date-fns';
 import { useMutation } from '@apollo/react-hooks';
-import { useHistory, useLocation } from 'react-router-dom';
 import { AddExpenseMutation } from '../../types/AddExpenseMutation';
 import ADD_EXPENSE_MUTATION from '../../graphql/AddExpense';
 import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
+import GET_ALL_EXPENSES from '../../graphql/GetAllExpenses';
 
 interface FormValues {
   dateOfExpense: string;
@@ -24,16 +24,10 @@ interface FormValues {
 interface AddExpenseProps {
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const AddExpenseForm: React.FC<AddExpenseProps> = ({ setToggle }) => {
+const AddExpenseForm: React.FC<AddExpenseProps> = () => {
   const today = new Date();
   const [mutate, { data }] = useMutation<AddExpenseMutation>(ADD_EXPENSE_MUTATION);
-  const history = useHistory();
-  const { pathname } = useLocation();
-  React.useEffect(() => {
-    if (data?.addExpense) {
-      setInterval(() => setToggle(false), 3000);
-    }
-  }, [data, setToggle]);
+
   return (
     <Formik
       initialValues={{
@@ -45,13 +39,12 @@ const AddExpenseForm: React.FC<AddExpenseProps> = ({ setToggle }) => {
       onSubmit={async (values: FormValues, actions) => {
         const response = await mutate({
           variables: { ...values },
-          refetchQueries: () => [{ query: GET_THIS_MONTH_EXPENSES }],
+          refetchQueries: () => [{ query: GET_THIS_MONTH_EXPENSES }, { query: GET_ALL_EXPENSES }],
         });
-        console.log(response);
         if (response?.data?.addExpense) {
           actions.setSubmitting(false);
+          actions.resetForm();
         }
-        history.push(pathname);
       }}
     >
       {(formikBag: FormikProps<FormValues>) => (
@@ -143,9 +136,6 @@ const AddExpenseForm: React.FC<AddExpenseProps> = ({ setToggle }) => {
             <div className="text-center">
               <div className="inline-block text-sm text-green-500 align-baseline">
                 Successfully Added Expense!
-              </div>
-              <div className="inline-block text-sm text-gray-500 align-baseline">
-                This will automatically close in 3 seconds
               </div>
             </div>
           )}

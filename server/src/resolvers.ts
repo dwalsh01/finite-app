@@ -73,15 +73,27 @@ const resolvers: IResolvers = {
       // TODO: update this logic, make it better, return an object instead
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        return null;
+        return {
+          user: null,
+          reason: 'email',
+          error: 'No user with that email address',
+        };
       }
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
-        return null;
+        return {
+          user: null,
+          reason: 'password',
+          error: 'Incorrect password',
+        };
       }
       // store user id in the session as cookie
       req.session.userId = user.id;
-      return user;
+      return {
+        user,
+        reason: '',
+        error: '',
+      };
     },
     logout: async (_, __, { req }) => {
       if (req.session.userId) {

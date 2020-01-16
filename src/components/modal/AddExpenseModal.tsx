@@ -3,7 +3,6 @@ import AddExpenseForm from '../expenses/AddExpenseForm';
 
 const AddExpenseModal: React.FC = () => {
   const [toggle, setToggle] = React.useState(false);
-  // listener: (this: Window, ev: KeyboardEvent)
   const handleKeyDown = React.useCallback(
     (ev: KeyboardEvent) => {
       let isEscape = false;

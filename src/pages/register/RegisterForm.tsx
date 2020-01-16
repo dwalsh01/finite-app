@@ -1,7 +1,7 @@
 import React from 'react';
-import { RouteComponentProps, withRouter, NavLink } from 'react-router-dom';
+import { RouteComponentProps, withRouter, NavLink, useHistory } from 'react-router-dom';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
-import { Formik, FormikProps, Form } from 'formik';
+import { Formik, FormikProps, Form, FormikHelpers } from 'formik';
 import ME_QUERY from '../../graphql/GetUser';
 import UserValidation from '../../yup/UserValidation';
 import { RegisterMutation, RegisterMutationVariables } from '../../types/RegisterMutation';
@@ -11,34 +11,45 @@ interface RegisterFormValues {
   email: string;
   password: string;
 }
-const RForm: React.FC<RouteComponentProps> = ({ history }) => {
+const RForm: React.FC<RouteComponentProps> = () => {
   const client = useApolloClient();
-  const [mutate] = useMutation<RegisterMutation, RegisterMutationVariables>(REGISTER_MUTATION, {
-    update(cache, { data }) {
-      if (!data?.register?.registered || !data.register.user) {
-        return;
-      }
-      cache.writeQuery({
-        query: ME_QUERY,
-        data: { me: data.register.user },
-      });
+  const history = useHistory();
+  const [mutate, { data }] = useMutation<RegisterMutation, RegisterMutationVariables>(
+    REGISTER_MUTATION,
+    {
+      update(cache, result) {
+        if (!result.data?.register?.registered || !result.data.register.user) {
+          return;
+        }
+        cache.writeQuery({
+          query: ME_QUERY,
+          data: { me: result.data.register.user },
+        });
+      },
     },
-  });
+  );
+  const handleSubmit = async (
+    values: RegisterFormValues,
+    formikHelpers: FormikHelpers<RegisterFormValues>,
+  ) => {
+    if (client) {
+      client.resetStore();
+    }
+    formikHelpers.setSubmitting(false);
+    await mutate({
+      variables: { ...values },
+    }).then(response => {
+      if (response.data?.register.registered) {
+        history.push('/home');
+      }
+    });
+  };
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={UserValidation}
-      onSubmit={async (values: RegisterFormValues, actions) => {
-        console.log(values);
-        if (client) {
-          client.resetStore();
-        }
-        await mutate({
-          variables: { ...values },
-        });
-        actions.setSubmitting(false);
-        history.push('/login');
-      }}
+      onSubmit={handleSubmit}
     >
       {(formikBag: FormikProps<RegisterFormValues>) => (
         <Form className="px-8 pt-6 pb-8 mb-4 bg-white rounded">
@@ -54,6 +65,12 @@ const RForm: React.FC<RouteComponentProps> = ({ history }) => {
                 onChange={formikBag.handleChange}
               />
             </label>
+            {formikBag.touched.email && formikBag.errors.email && (
+              <p className="text-xs italic text-red-500">Please enter a valid email address.</p>
+            )}
+            {data && !data?.register.registered && (
+              <p className="text-xs italic text-red-500">Email already exists</p>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
@@ -68,17 +85,20 @@ const RForm: React.FC<RouteComponentProps> = ({ history }) => {
                 onChange={formikBag.handleChange}
               />
             </label>
-
-            {/* <p className="text-xs italic text-red-500">Please choose a password.</p> */}
+            {formikBag.touched.password && formikBag.errors.password && (
+              <p className="text-xs italic text-red-500">Please enter a valid password.</p>
+            )}
           </div>
           <div className="mb-6 text-center">
             <button
-              className="w-full px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700 focus:outline-none focus:shadow-outline"
+              className={`w-full px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700 focus:outline-none focus:shadow-outline ${
+                !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               type="submit"
-              disabled={formikBag.isSubmitting || !formikBag.isValid}
+              disabled={!formikBag.dirty || formikBag.isSubmitting}
               onClick={() => formikBag.handleSubmit}
             >
-              Sign Up
+              Register
             </button>
           </div>
           <hr className="mb-6 border-t" />
