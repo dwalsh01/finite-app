@@ -6,6 +6,7 @@ import { AddExpenseMutation } from '../../types/AddExpenseMutation';
 import ADD_EXPENSE_MUTATION from '../../graphql/AddExpense';
 import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
 import GET_ALL_EXPENSES from '../../graphql/GetAllExpenses';
+import AddExpenseValidation from '../../yup/AddExpenseValidation';
 
 interface FormValues {
   dateOfExpense: string;
@@ -30,10 +31,11 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
 
   return (
     <Formik
+      validationSchema={AddExpenseValidation}
       initialValues={{
         dateOfExpense: format(today, 'yyyy-MM-dd'),
         sectorOfExpense: 'Entertainment',
-        amount: 0,
+        amount: 1,
         description: '',
       }}
       onSubmit={async (values: FormValues, actions) => {
@@ -53,27 +55,40 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="amount">
               Amount
               <input
-                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
+                  formikBag.touched.amount && formikBag.errors.amount ? 'border-red-500' : ''
+                }`}
                 id="amount"
                 type="number"
                 placeholder="Amount (€)"
                 value={formikBag.values.amount}
                 onChange={formikBag.handleChange}
+                onBlur={formikBag.handleBlur}
               />
             </label>
+            {formikBag.touched.amount && formikBag.errors.amount && (
+              <p className="text-xs italic text-red-500">Please a valid number.</p>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="dateOfExpense">
               Date Of Expense
               <input
-                // border-red-500
-                className="w-full px-3 py-2 mb-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
+                  formikBag.touched.dateOfExpense && formikBag.errors.dateOfExpense
+                    ? 'border-red-500'
+                    : ''
+                }`}
                 id="dateOfExpense"
                 type="date"
                 value={formikBag.values.dateOfExpense}
                 onChange={formikBag.handleChange}
+                onBlur={formikBag.handleBlur}
               />
             </label>
+            {formikBag.touched.dateOfExpense && formikBag.errors.dateOfExpense && (
+              <p className="text-xs italic text-red-500">Please enter valid date</p>
+            )}
           </div>
           <div className="w-full mb-4">
             <label
@@ -83,10 +98,15 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
               Categories
               <div className="relative">
                 <select
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
+                    formikBag.touched.sectorOfExpense && formikBag.errors.sectorOfExpense
+                      ? 'border-red-500'
+                      : ''
+                  }`}
                   id="sector"
                   value={formikBag.values.sectorOfExpense}
                   onChange={event => formikBag.setFieldValue('sectorOfExpense', event.target.value)}
+                  onBlur={formikBag.handleBlur}
                 >
                   <option>Entertainment</option>
                   <option>Health</option>
@@ -107,12 +127,19 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
                 </div>
               </div>
             </label>
+            {formikBag.errors.sectorOfExpense && (
+              <p className="text-xs italic text-red-500">Please a valid number.</p>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="description">
               Description
               <input
-                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
+                  formikBag.touched.description && formikBag.errors.description
+                    ? 'border-red-500'
+                    : ''
+                }`}
                 id="description"
                 type="text"
                 placeholder="Description"
@@ -120,12 +147,19 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
                 onChange={formikBag.handleChange}
               />
             </label>
+            {formikBag.touched.description && formikBag.errors.description && (
+              <p className="text-xs italic text-red-500">
+                Please a description (i.e. place of purchase or description of good(s) purchased)
+              </p>
+            )}
           </div>
           <div className="mb-6 text-center">
             <button
-              className="w-full px-4 py-2 font-bold text-white bg-purple-500 rounded-full hover:bg-purple-700 focus:outline-none focus:shadow-outline"
+              className={`w-full px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline ${
+                !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               type="submit"
-              disabled={formikBag.isSubmitting || !formikBag.isValid}
+              disabled={!formikBag.dirty || formikBag.isSubmitting || !formikBag.isValid}
               onClick={() => formikBag.handleSubmit}
             >
               Submit

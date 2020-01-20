@@ -57,12 +57,15 @@ const RForm: React.FC<RouteComponentProps> = () => {
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
               Email
               <input
-                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
+                  formikBag.touched.email && formikBag.errors.email ? 'border-red-500' : ''
+                }`}
                 id="email"
                 type="text"
                 placeholder="email"
                 value={formikBag.values.email}
                 onChange={formikBag.handleChange}
+                onBlur={formikBag.handleBlur}
               />
             </label>
             {formikBag.touched.email && formikBag.errors.email && (
@@ -76,13 +79,15 @@ const RForm: React.FC<RouteComponentProps> = () => {
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
               Password
               <input
-                // border-red-500
-                className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                className={`w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline ${
+                  formikBag.touched.password && formikBag.errors.password ? 'border-red-500' : ''
+                }`}
                 id="password"
                 type="password"
                 placeholder="password"
                 value={formikBag.values.password}
                 onChange={formikBag.handleChange}
+                onBlur={formikBag.handleBlur}
               />
             </label>
             {formikBag.touched.password && formikBag.errors.password && (
