@@ -18,6 +18,7 @@ const typeDefs = gql`
   type GetExpenses {
     daysOfMonth: [Date!]!
     expensesThisMonth: [Expense!]!
+    expensesLastMonth: [Expense!]!
   }
   type Query {
     me: User

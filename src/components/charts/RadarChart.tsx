@@ -18,6 +18,7 @@ import { sortExpensesForPC } from '../../utils/sortExpenses';
 import numberWithCommas from '../../utils/formatAmount';
 import tailwindTheme from '../../styles/tailwind-theme';
 
+// TODO: Make the radarChart
 const data = [
   {
     subject: 'Math',
@@ -70,10 +71,6 @@ const ExampleRadarChart = () => (
   </ResponsiveContainer>
 );
 
-interface PieChartProps {
-  expenses: GetExpensesThisMonth_getExpenses_expensesThisMonth[];
-}
-
 const RADIAN = Math.PI / 180;
 
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
@@ -88,14 +85,14 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
-const CustomTooltip = ({ active, payload }: TooltipProps) => {
+export const CustomTooltip = ({ active, payload }: TooltipProps) => {
   if (active) {
     return (
       <div className="shadow-lg bg-gray-100 rounded p-2 text-center">
         <p className="text-lg font-semibold">
           {`€${payload && numberWithCommas(payload[0].value)}`}
         </p>
-        <p className="desc">Anything you want can be displayed here.</p>
+        {/* <p className="desc">Anything you want can be displayed here.</p> */}
       </div>
     );
   }
@@ -113,8 +110,11 @@ const TWColors: any = {
   Beauty: tailwindTheme.colors.yellow[500],
 };
 
+interface ExpensesProps {
+  expenses: GetExpensesThisMonth_getExpenses_expensesThisMonth[];
+}
 // This is the pie chart for expenses by sector
-export const ExpensesPieChart: React.FC<PieChartProps> = ({ expenses }) => {
+export const ExpensesPieChart: React.FC<ExpensesProps> = ({ expenses }) => {
   const sortedExpenses = sortExpensesForPC(expenses);
   return (
     <div style={{ width: '100%', height: 300 }}>

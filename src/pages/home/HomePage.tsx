@@ -9,6 +9,7 @@ import numberWithCommas from '../../utils/formatAmount';
 import Navigation from '../../components/navigation/Navigation';
 import Grid from '../../components/grid/Grid';
 import GridItem from '../../components/grid/GridItem';
+import ExpensesCrawlChart from '../../components/charts/CrawlChart';
 
 const HomePage: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);
@@ -27,6 +28,7 @@ const HomePage: React.FC = () => {
       <div className="container mx-auto lg:px-8">
         <Navigation />
       </div>
+
       {!data?.getExpenses?.expensesThisMonth ? (
         <div className="container mx-auto text-xl text-center sm:p-10 bg-green-200 shadow-md">
           <span className="block pb-5">No expenses this month</span>
@@ -45,9 +47,9 @@ const HomePage: React.FC = () => {
             <GridItem>
               <ExpensesPieChart expenses={data.getExpenses.expensesThisMonth} />
             </GridItem>
-            {/* <GridItem>
-              <ExampleRadarChart />
-            </GridItem> */}
+            <GridItem>
+              <ExpensesCrawlChart expenses={data.getExpenses.expensesThisMonth} />
+            </GridItem>
           </Grid>
         </>
       )}

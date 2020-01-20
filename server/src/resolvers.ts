@@ -24,11 +24,14 @@ const resolvers: IResolvers = {
       const now = new Date();
       const first = new Date(getYear(now), getMonth(now), 1);
       const last = lastDayOfMonth(now);
+      const firstLastMonth = new Date(getYear(now), getMonth(now) - 1, 1);
+      const lastLastMonth = lastDayOfMonth(new Date(getYear(now), getMonth(now) - 1, 1));
       const days = eachDay(first, last);
-
       const user = await User.findOne(req.session.userId);
       // eslint-disable-next-line
       const expensesThisMonth: any[] = [];
+      // eslint-disable-next-line
+      const expensesLastMonth: any[] = [];
       if (user) {
         if (user.expenses) {
           user.expenses.forEach(expense => {
@@ -38,12 +41,19 @@ const resolvers: IResolvers = {
             ) {
               expensesThisMonth.push(expense);
             }
+            if (
+              new Date(expense.dateOfExpense) >= firstLastMonth &&
+              new Date(expense.dateOfExpense) <= lastLastMonth
+            ) {
+              expensesLastMonth.push(expense);
+            }
           });
         }
       }
       return {
         daysOfMonth: days,
         expensesThisMonth,
+        expensesLastMonth,
       };
     },
   },

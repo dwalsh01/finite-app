@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { GetExpenses_me_expenses } from '../types/GetExpenses';
 import { GetExpensesThisMonth_getExpenses_expensesThisMonth } from '../types/GetExpensesThisMonth';
+import { GetExpensesLastMonth_getExpenses_expensesLastMonth } from '../types/GetExpensesLastMonth';
 
 const MONTH_NAMES = [
   'January',
@@ -17,7 +18,9 @@ const MONTH_NAMES = [
   'December',
 ];
 
-export function groupDatesAndKeys(expenses: GetExpenses_me_expenses[]) {
+export function groupDatesAndKeys(
+  expenses: GetExpenses_me_expenses[] | GetExpensesLastMonth_getExpenses_expensesLastMonth[],
+) {
   const groupByDate = _.mapValues(_.groupBy(expenses, 'dateOfExpense'));
   const dates = Object.keys(groupByDate);
   return { groupByDate, dates };
