@@ -1,27 +1,37 @@
 import React from 'react';
 
 interface GridProps {
-  padding?: 1 | 2 | 3 | 4;
+  padding?: 0 | 1 | 2 | 3 | 4;
+  spacing?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  container?: boolean;
+  content?:
+    | 'content-start'
+    | 'content-center'
+    | 'content-end'
+    | 'content-between'
+    | 'content-around';
 }
 
 interface GridContextProps {
   childrenAmount: number;
 }
 
-export const GridContext = React.createContext<GridContextProps>({ childrenAmount: 0 });
-
-const Grid: React.FC<GridProps> = ({ children, padding }) => {
+const Grid: React.FC<GridProps> = ({ children, padding, container, content }) => {
   return (
-    <GridContext.Provider value={{ childrenAmount: React.Children.count(children) }}>
-      <div
-        className={`container flex flex-wrap content-center ${
-          padding ? `p-${padding}` : ''
-        } mx-auto pt-5`}
-      >
-        {children}
-      </div>
-    </GridContext.Provider>
+    <div
+      className={`${container ? 'container' : ''} flex flex-wrap ${content} ${
+        padding ? `p-${padding}` : ''
+      } mx-auto pt-5`}
+    >
+      {children}
+    </div>
   );
 };
 
+Grid.defaultProps = {
+  padding: 0,
+  spacing: 1,
+  container: true,
+  content: 'content-center',
+};
 export default Grid;

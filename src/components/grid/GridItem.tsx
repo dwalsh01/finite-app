@@ -1,18 +1,18 @@
 import React from 'react';
-import { GridContext } from './Grid';
 
-const GridItem: React.FC = ({ children }) => {
-  const { childrenAmount } = React.useContext(GridContext);
-  const chooseGridItemType = () => {
-    if (childrenAmount === 0) {
-      return null;
-    }
-    if (childrenAmount % 2 === 0) {
-      return <div className="w-full md:w-1/2 mb-4 lg:p-10">{children}</div>;
-    }
-    return <div className="w-full md:w-1/2 lg:w-1/3 mb-4 lg:p-10">{children}</div>;
+interface GridItemProps {
+  lg?: 1 | 2 | 3 | 4 | 5;
+}
+const GridItem: React.FC<GridItemProps> = ({ children, lg }) => {
+  const newChoose = () => {
+    return (
+      <div className={`w-full md:1/${lg ? `${lg - 1}` : '3'} lg:w-1/${lg || `3`} h-auto mb-4`}>
+        {children}
+      </div>
+    );
   };
-  return chooseGridItemType();
+
+  return newChoose();
 };
 
 export default GridItem;

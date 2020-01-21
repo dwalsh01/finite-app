@@ -9,7 +9,8 @@ import numberWithCommas from '../../utils/formatAmount';
 import Navigation from '../../components/navigation/Navigation';
 import Grid from '../../components/grid/Grid';
 import GridItem from '../../components/grid/GridItem';
-import ExpensesCrawlChart from '../../components/charts/CrawlChart';
+import ExpensesCrawlChart, { LastMonthExpenses } from '../../components/charts/CrawlChart';
+// import VictoryCharts from '../../components/charts/VictoryCharts';
 
 const HomePage: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);
@@ -38,17 +39,20 @@ const HomePage: React.FC = () => {
         <>
           <div className="container mx-auto text-xl text-center p-10 bg-green-200 shadow-md">
             <span className="font-extrabold">
-              {`$${numberWithCommas(totalForTheMonth(data.getExpenses.expensesThisMonth).amount)}`}
+              {`€${numberWithCommas(totalForTheMonth(data.getExpenses.expensesThisMonth).amount)}`}
             </span>
             <span className="font-light"> spent this month</span>
             <AddExpenseModal />
           </div>
-          <Grid>
+          <Grid container content="content-center">
             <GridItem>
               <ExpensesPieChart expenses={data.getExpenses.expensesThisMonth} />
             </GridItem>
             <GridItem>
               <ExpensesCrawlChart expenses={data.getExpenses.expensesThisMonth} />
+            </GridItem>
+            <GridItem>
+              <LastMonthExpenses />
             </GridItem>
           </Grid>
         </>

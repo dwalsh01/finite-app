@@ -16,7 +16,6 @@ const tickFormatter = (tick: any) => {
   ];
   const day = nDate.getDate();
   const monthIndex = nDate.getMonth();
-  // const year = nDate.getFullYear();
   const getAddition = (numb: number) => {
     switch (numb) {
       case 1:
