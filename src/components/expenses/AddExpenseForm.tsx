@@ -155,14 +155,14 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
           </div>
           <div className="mb-6 text-center">
             <button
-              className={`w-full px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline ${
+              className={`w-full px-4 py-2 font-bold bg-indigo-200 rounded-full text-white hover:bg-indigo-300 text-indigo-700 focus:outline-none focus:shadow-outline ${
                 !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               type="submit"
               disabled={!formikBag.dirty || formikBag.isSubmitting || !formikBag.isValid}
               onClick={() => formikBag.handleSubmit}
             >
-              Submit
+              Add Expense
             </button>
           </div>
           <hr className="mb-6 border-t" />

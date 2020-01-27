@@ -7,6 +7,8 @@ import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import Expenses from './entity/Expenses';
 import User from './entity/User';
+import { isThisMonth, isPreviousMonth } from './utils/getThisMonthExpenses';
+import sortExpenses from './utils/sortExpenses';
 
 const resolvers: IResolvers = {
   Query: {
@@ -14,8 +16,7 @@ const resolvers: IResolvers = {
       if (!req.session.userId) {
         return null;
       }
-      const user = await User.findOne(req.session.userId);
-      return user;
+      return User.findOne(req.session.userId);
     },
     getExpenses: async (_, __, { req }) => {
       if (!req.session.userId) {
@@ -55,6 +56,82 @@ const resolvers: IResolvers = {
         expensesThisMonth,
         expensesLastMonth,
       };
+    },
+    getAmountChange: async (_, __, { req }) => {
+      if (!req.session.userId) {
+        return 0;
+      }
+      const user = await User.findOne(req.session.userId);
+      if (user && user.expenses) {
+        let totalThisMonth = 0;
+        let totalLastMonth = 0;
+        user.expenses.forEach(expense => {
+          isPreviousMonth(expense, amt => {
+            totalLastMonth += amt;
+          });
+          isThisMonth(expense, amt => {
+            totalThisMonth += amt;
+          });
+        });
+        return totalThisMonth - totalLastMonth;
+      }
+      return 0;
+    },
+    getTotalForMonth: async (_, __, { req }) => {
+      if (!req.session.userId) {
+        return 0;
+      }
+      const user = await User.findOne(req.session.userId);
+      if (user) {
+        if (user.expenses) {
+          const now = new Date();
+          let total = 0;
+          user.expenses.forEach(expense => {
+            const expenseDate = new Date(expense.dateOfExpense);
+            if (
+              expenseDate.getMonth() === now.getMonth() &&
+              expenseDate.getFullYear() === now.getFullYear()
+            ) {
+              total += expense.amount;
+            }
+          });
+          return total;
+        }
+      }
+      return 0;
+    },
+    getPercentageChange: async (_, __, { req }) => {
+      if (!req.session.userId) {
+        return 0;
+      }
+      const user = await User.findOne(req.session.userId);
+      let totalForMonth = 0;
+      let totalLastMonth = 0;
+      if (user) {
+        if (user.expenses) {
+          user.expenses.forEach(expense => {
+            isPreviousMonth(expense, amt => {
+              totalLastMonth += amt;
+            });
+            isThisMonth(expense, amt => {
+              totalForMonth += amt;
+            });
+          });
+        }
+      }
+      return ((totalForMonth - totalLastMonth) / totalForMonth) * 100;
+    },
+    getRecentExpenses: async (_, args, { req }) => {
+      if (!req.session.userId) {
+        return [];
+      }
+      const user = await User.findOne(req.session.userId);
+      if (user && user.expenses) {
+        return sortExpenses(user.expenses)
+          .reverse()
+          .slice(0, args.first);
+      }
+      return [];
     },
   },
   Mutation: {

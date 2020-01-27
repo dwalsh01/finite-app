@@ -5,8 +5,7 @@ const AddExpenseModal: React.FC = () => {
   const [toggle, setToggle] = React.useState(false);
   const handleKeyDown = React.useCallback(
     (ev: KeyboardEvent) => {
-      let isEscape = false;
-      isEscape = ev.key === 'Escape' || ev.key === 'Esc' || ev.keyCode === 27;
+      const isEscape = ev.key === 'Escape' || ev.key === 'Esc' || ev.keyCode === 27;
       if (isEscape && toggle) {
         setToggle(prev => !prev);
       }

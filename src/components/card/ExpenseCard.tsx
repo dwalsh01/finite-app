@@ -26,7 +26,7 @@ const ExpenseCard: React.FC<GetExpenses_me_expenses> = ({
       <div className="py-2 px-2">
         <div className="flex items-center">
           <h4 className="inline-block text-gray-700 font-medium text-lg">
-            {`$${numberWithCommas(amount)}`}
+            {`€${numberWithCommas(amount)}`}
           </h4>
           {isToday(dateOfExpense) && (
             <span className="inline-block px-2 mx-2 bg-purple-200 text-purple-800 text-xs rounded uppercase font-semibold tracking-wide">

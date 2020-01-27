@@ -14,7 +14,7 @@ interface LoginFormValues {
 const LForm: React.FC<RouteComponentProps> = () => {
   const client = useApolloClient();
   const history = useHistory();
-  const [mutate, { data }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, {
+  const [mutate] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, {
     update(cache, result) {
       if (!result.data?.login?.user) {
         return;
@@ -30,7 +30,7 @@ const LForm: React.FC<RouteComponentProps> = () => {
     formikHelpers: FormikHelpers<LoginFormValues>,
   ) => {
     if (client) {
-      client.resetStore();
+      await client.resetStore();
     }
     formikHelpers.setSubmitting(false);
     await mutate({
@@ -67,9 +67,6 @@ const LForm: React.FC<RouteComponentProps> = () => {
             </label>
             {formikBag.touched.email && formikBag.errors.email && (
               <p className="text-xs italic text-red-500">Please enter a valid email address.</p>
-            )}
-            {data && !data?.login?.user && (
-              <p className="text-xs italic text-red-500">Email already exists</p>
             )}
           </div>
           <div className="mb-4">

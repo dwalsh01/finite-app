@@ -1,4 +1,4 @@
-function formatDate(date: string) {
+function formatDate(date: string, short = false) {
   const nDate = new Date(date);
   const monthNames = [
     'January',
@@ -13,6 +13,20 @@ function formatDate(date: string) {
     'October',
     'November',
     'December',
+  ];
+  const shortMonthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sept',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   const day = nDate.getDate();
   const monthIndex = nDate.getMonth();
@@ -29,7 +43,9 @@ function formatDate(date: string) {
         return 'th';
     }
   };
-  return `${day}${getAddition(day)} ${monthNames[monthIndex]} ${year}`;
+  return `${day}${getAddition(day)} ${
+    short ? shortMonthNames[monthIndex] : monthNames[monthIndex]
+  } ${short ? `'${year.toString().slice(-2)}` : year}`;
 }
 
 export default formatDate;

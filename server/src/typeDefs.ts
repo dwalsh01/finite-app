@@ -20,10 +20,16 @@ const typeDefs = gql`
     expensesThisMonth: [Expense!]!
     expensesLastMonth: [Expense!]!
   }
+
   type Query {
     me: User
     getExpenses: GetExpenses
+    getTotalForMonth: Float!
+    getAmountChange: Float!
+    getPercentageChange: Float!
+    getRecentExpenses(first: Int!): [Expense!]!
   }
+
   type Register {
     registered: Boolean!
     user: User
