@@ -119,6 +119,9 @@ const resolvers: IResolvers = {
           });
         }
       }
+      if (totalForMonth === 0) {
+        return 0;
+      }
       return ((totalForMonth - totalLastMonth) / totalForMonth) * 100;
     },
     getRecentExpenses: async (_, args, { req }) => {

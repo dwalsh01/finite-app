@@ -7,6 +7,9 @@ import ADD_EXPENSE_MUTATION from '../../graphql/AddExpense';
 import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
 import GET_ALL_EXPENSES from '../../graphql/GetAllExpenses';
 import AddExpenseValidation from '../../yup/AddExpenseValidation';
+import GET_TOTAL_FOR_MONTH from '../../graphql/GetTotalExpensesForMonth';
+import GET_AMOUNT_CHANGE from '../../graphql/GetAmountChange';
+import GET_PERCENTAGE_CHANGE from '../../graphql/GetPercentageChange';
 
 interface FormValues {
   dateOfExpense: string;
@@ -41,7 +44,13 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
       onSubmit={async (values: FormValues, actions) => {
         const response = await mutate({
           variables: { ...values },
-          refetchQueries: () => [{ query: GET_THIS_MONTH_EXPENSES }, { query: GET_ALL_EXPENSES }],
+          refetchQueries: () => [
+            { query: GET_THIS_MONTH_EXPENSES },
+            { query: GET_ALL_EXPENSES },
+            { query: GET_TOTAL_FOR_MONTH },
+            { query: GET_AMOUNT_CHANGE },
+            { query: GET_PERCENTAGE_CHANGE },
+          ],
         });
         if (response?.data?.addExpense) {
           actions.setSubmitting(false);

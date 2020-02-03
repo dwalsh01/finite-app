@@ -4,8 +4,10 @@ import GET_RECENT_EXPENSES from '../../../graphql/GetRecentExpenses';
 import { GetRecentExpenses, GetRecentExpensesVariables } from '../../../types/GetRecentExpenses';
 import { GetExpensesThisMonth } from '../../../types/GetExpensesThisMonth';
 import GET_THIS_MONTH_EXPENSES from '../../../graphql/ExpensesThisMonth';
-import { ExpensesPieChart } from '../../../components/charts/RadarChart';
+import { ExpensesPieChart } from '../../../components/charts/PieChart';
 import formatDate from '../../../utils/formatDate';
+import ChartSelection from './ChartSelection';
+import ExpensesCrawlChart from '../../../components/charts/CrawlChart';
 
 const Activities: React.FC = () => {
   const { data, loading } = useQuery<GetRecentExpenses, GetRecentExpensesVariables>(
@@ -46,14 +48,22 @@ const Activities: React.FC = () => {
   return <>{renderRecent()}</>;
 };
 
-const OtherInformation: React.FC = () => {
+const TrendsCharts: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);
+  const [chartType, setChartType] = React.useState<'Pie Chart' | 'Crawl Chart'>('Crawl Chart');
   if (loading || !data) {
     return null;
   }
   const renderExpenses = () => {
     if (data.getExpenses?.expensesThisMonth) {
-      return <ExpensesPieChart expenses={data.getExpenses.expensesThisMonth} />;
+      switch (chartType) {
+        case 'Crawl Chart':
+          return <ExpensesCrawlChart expenses={data.getExpenses.expensesThisMonth} />;
+        case 'Pie Chart':
+          return <ExpensesPieChart expenses={data.getExpenses.expensesThisMonth} />;
+        default:
+          return null;
+      }
     }
     return null;
   };
@@ -62,20 +72,19 @@ const OtherInformation: React.FC = () => {
       <div className="bg-white h-full border-t border-b sm:rounded sm:border shadow">
         <div className="border-b">
           <div className="flex justify-between px-6 -mb-px">
-            <h3 className="text-blue-dark py-4 font-normal text-lg">Recent Activity</h3>
+            <h3 className="text-blue-dark py-4 font-normal text-lg">Expenses Charts</h3>
+            <ChartSelection chart={chartType} setChart={setChartType} />
           </div>
         </div>
-        <div>
-          <div className="text-center px-6 py-4">
-            <div className="py-8">{renderExpenses()}</div>
-          </div>
+        <div className="text-center px-6 py-4 w-full h-full">
+          <div className="w-full h-full">{renderExpenses()}</div>
         </div>
       </div>
     </div>
   );
 };
 
-const RecentActivity: React.FC = () => (
+const RecentActivities: React.FC = () => (
   <div className="flex flex-wrap -mx-4">
     <div className="w-full mb-6 lg:mb-0 lg:w-1/2 px-4 flex flex-col">
       <div className="flex-grow flex flex-col bg-white border-t border-b sm:rounded sm:border shadow overflow-hidden">
@@ -86,12 +95,12 @@ const RecentActivity: React.FC = () => (
         </div>
         <Activities />
         <div className="px-6 py-4">
-          <div className="text-center text-grey">Total Balance &asymp; CA$21.28</div>
+          {/* <div className="text-center text-grey">Total Balance &asymp; CA$21.28</div> */}
         </div>
       </div>
     </div>
-    <OtherInformation />
+    <TrendsCharts />
   </div>
 );
 
-export default RecentActivity;
+export default RecentActivities;

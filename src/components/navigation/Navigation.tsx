@@ -1,21 +1,20 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import { NavLink, NavLinkProps } from 'react-router-dom';
-import SLink from '../link/Link';
 import LogoutButtonCheck from '../button/LogoutButton';
 
-const NavigationLink: React.FC<NavLinkProps> = ({ children, to }) => {
+const NavigationLink: React.FC<NavLinkProps> = ({ children, to, exact }) => {
   return (
     <NavLink
       className="text-gray-800 hover:text-green-500 py-3 px-6"
       to={to}
+      exact={exact}
       activeClassName="text-green-400 font-semibold"
     >
       {children}
     </NavLink>
   );
 };
-// different navbar for landing over logged in ?
 const Navigation: React.FC = () => {
   const [hidden, setHidden] = React.useState(true);
   const { pathname } = useLocation();
@@ -26,19 +25,19 @@ const Navigation: React.FC = () => {
       <nav className={`${hidden ? 'hidden' : 'block text-center'} md:flex text-lg`}>
         {paths.includes(pathname) ? (
           <>
-            <SLink to="/">Home</SLink>
-            <SLink to="/services">Services</SLink>
-            <SLink to="/about">About</SLink>
-            <SLink to="/contact">Contact</SLink>
-            <SLink to="/faq">FAQ</SLink>
+            <NavigationLink to="/">Home</NavigationLink>
+            <NavigationLink to="/services">Services</NavigationLink>
+            <NavigationLink to="/about">About</NavigationLink>
+            <NavigationLink to="/contact">Contact</NavigationLink>
+            <NavigationLink to="/faq">FAQ</NavigationLink>
             <LogoutButtonCheck />
           </>
         ) : (
           <>
             <NavigationLink to="/home">Home</NavigationLink>
             <NavigationLink to="/expenses">Expenses</NavigationLink>
-            <NavigationLink to="/trends">Trends</NavigationLink>
             <NavigationLink to="/help">Help</NavigationLink>
+            <NavigationLink to="/account">Account</NavigationLink>
             <LogoutButtonCheck />
           </>
         )}

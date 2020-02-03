@@ -4,7 +4,7 @@ import { GetExpensesThisMonth } from '../../types/GetExpensesThisMonth';
 import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
 import AddExpenseModal from '../../components/modal/AddExpenseModal';
 import Navigation from '../../components/navigation/Navigation';
-import { Trends } from '../trends/TrendsPage';
+import Trends from '../trends/Trends';
 
 const HomePage: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);

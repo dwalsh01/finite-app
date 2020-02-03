@@ -6,7 +6,7 @@ const DateSelection: React.FC = () => (
       type="button"
       className="appearance-none py-4 text-gray-700 border-b border-transparent hover:border-gray-700 mr-3"
     >
-      1M
+      1W
     </button>
     <button
       type="button"
