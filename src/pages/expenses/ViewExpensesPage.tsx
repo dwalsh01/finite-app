@@ -13,8 +13,6 @@ const ViewExpensesPage: React.FC = () => {
   const { data, loading } = useQuery<GetExpenses>(GET_ALL_EXPENSES);
   const [today, setToday] = React.useState(false);
   const [selectedSector, setSelectedSector] = React.useState<null | string>(null);
-  const allExp: GetExpenses_me_expenses[] = [];
-  const todayExp: GetExpenses_me_expenses[] = [];
   React.useEffect(() => {
     document.title = 'Finite | View Expenses';
     if (data?.me?.expenses) {
@@ -29,15 +27,6 @@ const ViewExpensesPage: React.FC = () => {
     return null;
   }
   const { expenses } = data.me;
-  if (expenses) {
-    sortExpensesByDate({ expenses, nearest: true }).forEach(expense => {
-      if (isToday(expense.dateOfExpense)) {
-        todayExp.push(expense);
-      }
-      allExp.push(expense);
-    });
-  }
-
   return (
     <>
       <div className="container mx-auto lg:px-8">
@@ -45,16 +34,16 @@ const ViewExpensesPage: React.FC = () => {
       </div>
       <h1 className="text-xl font-bold text-center pt-2">Sectors</h1>
       <div className="flex flex-wrap justify-center sm:px-8">
-        {data.me?.expenses && (
+        {expenses !== null && (
           <RenderOptions
             setSelectedSector={setSelectedSector}
             selectedSector={selectedSector}
-            expenses={data.me?.expenses}
+            expenses={expenses}
           />
         )}
       </div>
       <div>
-        {!data?.me?.expenses ? (
+        {!expenses ? (
           <div className="text-center p-6">
             <h1 className="text-xl font-bold">You have no expenses to date!</h1>
             <div>Add some expenses to get started</div>
@@ -65,23 +54,23 @@ const ViewExpensesPage: React.FC = () => {
             <div>
               {today && <h1 className="text-xl font-bold text-center pt-2">Todays Expenses</h1>}
               <div className="flex flex-wrap justify-center px-5 md:px-0">
-                {todayExp.length !== 0 && (
+                {selectedSector && expenses ? (
                   <>
-                    {selectedSector ? (
-                      <>
-                        {todayExp
-                          .filter(exp => exp.sectorOfExpense === selectedSector)
-                          .map(expense => (
-                            <ExpenseCard key={expense.id} {...expense} />
-                          ))}
-                      </>
-                    ) : (
-                      <>
-                        {todayExp.map(expense => (
-                          <ExpenseCard key={expense.id} {...expense} />
-                        ))}
-                      </>
-                    )}
+                    {sortExpensesByDate({ expenses, nearest: true })
+                      .filter(
+                        exp => exp.sectorOfExpense === selectedSector && isToday(exp.dateOfExpense),
+                      )
+                      .map(expense => (
+                        <ExpenseCard key={expense.id} {...expense} />
+                      ))}
+                  </>
+                ) : (
+                  <>
+                    {sortExpensesByDate({ expenses, nearest: true })
+                      .filter(exp => isToday(exp.dateOfExpense))
+                      .map(expense => (
+                        <ExpenseCard key={expense.id} {...expense} />
+                      ))}
                   </>
                 )}
               </div>
@@ -90,22 +79,20 @@ const ViewExpensesPage: React.FC = () => {
             <div>
               <h1 className="text-xl font-bold text-center">All Expenses</h1>
               <div className="flex flex-wrap justify-center px-5 md:px-0">
-                {allExp.length !== 0 && (
+                {selectedSector && expenses ? (
                   <>
-                    {selectedSector ? (
-                      <>
-                        {allExp
-                          .filter(exp => exp.sectorOfExpense === selectedSector)
-                          .map(expense => (
-                            <ExpenseCard key={expense.id} {...expense} />
-                          ))}
-                      </>
-                    ) : (
-                      <>
-                        {allExp.map((expense: GetExpenses_me_expenses) => (
-                          <ExpenseCard key={expense.id} {...expense} />
-                        ))}
-                      </>
+                    {sortExpensesByDate({ expenses, nearest: true })
+                      .filter(exp => exp.sectorOfExpense === selectedSector)
+                      .map(expense => (
+                        <ExpenseCard key={expense.id} {...expense} />
+                      ))}
+                  </>
+                ) : (
+                  <>
+                    {sortExpensesByDate({ expenses, nearest: true }).map(
+                      (expense: GetExpenses_me_expenses) => (
+                        <ExpenseCard key={expense.id} {...expense} />
+                      ),
                     )}
                   </>
                 )}
