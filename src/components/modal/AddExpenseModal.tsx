@@ -55,7 +55,7 @@ const AddExpenseModal: React.FC = () => {
 
           <div className="modal-content py-4 text-left px-6 z-50">
             <div className="flex justify-between items-center pb-3">
-              <p className="text-2xl font-bold">Add an Expense</p>
+              <p className="pl-8 text-2xl font-bold">Add an Expense</p>
               {/* eslint-disable-next-line */}
               <div
                 className="modal-close cursor-pointer z-50"
@@ -74,7 +74,6 @@ const AddExpenseModal: React.FC = () => {
                 </svg>
               </div>
             </div>
-
             <AddExpenseForm setToggle={setToggle} />
 
             {/* <div className="flex justify-end">
