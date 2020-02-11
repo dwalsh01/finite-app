@@ -37,7 +37,7 @@ const Navigation: React.FC = () => {
             <NavigationLink to="/home">Home</NavigationLink>
             <NavigationLink to="/expenses">Expenses</NavigationLink>
             <NavigationLink to="/help">Help</NavigationLink>
-            <NavigationLink to="/account">Account</NavigationLink>
+            <NavigationLink to="/me">Account</NavigationLink>
             <LogoutButtonCheck />
           </>
         )}

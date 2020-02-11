@@ -20,7 +20,8 @@ const LogoutButtonCheck: React.FC = () => {
       return (
         <button
           type="button"
-          className="bg-green-200 hover:bg-green-300 rounded-full uppercase text-green-700 py-2 px-4"
+          // className="bg-green-200 hover:bg-green-300 rounded uppercase text-green-700 p-2 mx-2"
+          className="p-2 mx-2 bg-green-200 hover:bg-green-300 text-green-700 rounded uppercase"
           onClick={async () => {
             await mutate();
             await client.resetStore();

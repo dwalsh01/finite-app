@@ -94,9 +94,6 @@ const RecentActivities: React.FC = () => (
           </div>
         </div>
         <Activities />
-        {/* <div className="px-6 py-4">
-          <div className="text-center text-grey">Total Balance &asymp; CA$21.28</div>
-        </div> */}
       </div>
     </div>
     <TrendsCharts />

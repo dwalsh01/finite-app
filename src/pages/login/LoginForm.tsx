@@ -90,7 +90,7 @@ const LForm: React.FC<RouteComponentProps> = () => {
           </div>
           <div className="mb-6 text-center">
             <button
-              className={`w-full px-4 py-2 font-bold text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline ${
+              className={`w-full px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline ${
                 !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               type="submit"

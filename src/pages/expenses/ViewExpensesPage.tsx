@@ -7,7 +7,7 @@ import ExpenseCard from '../../components/card/ExpenseCard';
 import { sortExpensesByDate } from '../../utils/sortExpenses';
 import isToday from '../../utils/isToday';
 import AddExpenseModal from '../../components/modal/AddExpenseModal';
-import RenderOptions from './RenderOptions';
+import SelectFilter from './RenderOptions';
 
 const ViewExpensesPage: React.FC = () => {
   const { data, loading } = useQuery<GetExpenses>(GET_ALL_EXPENSES);
@@ -32,14 +32,9 @@ const ViewExpensesPage: React.FC = () => {
       <div className="container mx-auto lg:px-8">
         <Navigation />
       </div>
-      <h1 className="text-xl font-bold text-center pt-2">Sectors</h1>
       <div className="flex flex-wrap justify-center sm:px-8">
-        {expenses !== null && (
-          <RenderOptions
-            setSelectedSector={setSelectedSector}
-            selectedSector={selectedSector}
-            expenses={expenses}
-          />
+        {expenses && (
+          <SelectFilter setSelectedSector={setSelectedSector} selectedSector={selectedSector} />
         )}
       </div>
       <div>

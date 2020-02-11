@@ -20,7 +20,8 @@ const AddExpenseModal: React.FC = () => {
     <div className="flex items-center justify-center overflow-auto text-base">
       <button
         type="button"
-        className="modal-open px-4 bg-indigo-200 p-3 my-2 text-white hover:bg-indigo-300 text-indigo-700 rounded-full uppercase"
+        // className="p-2 mx-2 bg-green-200 hover:bg-green-300 text-green-700 rounded uppercase"
+        className="p-2 mx-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-700 rounded uppercase"
         onClick={() => setToggle(prev => !prev)}
       >
         Add An Expense
@@ -75,22 +76,6 @@ const AddExpenseModal: React.FC = () => {
               </div>
             </div>
             <AddExpenseForm setToggle={setToggle} />
-
-            {/* <div className="flex justify-end">
-              <button
-                type="button"
-                className="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2"
-              >
-                Action
-              </button>
-              <button
-                type="button"
-                className="modal-close px-4 bg-indigo-200 p-3 text-white hover:bg-indigo-300 text-indigo-700 rounded-full uppercase"
-                onClick={() => setToggle(prev => !prev)}
-              >
-                Close
-              </button>
-            </div> */}
           </div>
         </div>
       </div>

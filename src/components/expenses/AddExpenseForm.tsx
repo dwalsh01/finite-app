@@ -28,7 +28,7 @@ interface FormValues {
 interface AddExpenseProps {
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const AddExpenseForm: React.FC<AddExpenseProps> = () => {
+const AddExpenseForm: React.FC<AddExpenseProps> = ({ setToggle }) => {
   const today = new Date();
   const [mutate, { data }] = useMutation<AddExpenseMutation>(ADD_EXPENSE_MUTATION);
 
@@ -59,7 +59,7 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
       }}
     >
       {(formikBag: FormikProps<FormValues>) => (
-        <Form className="px-8 pt-6  mb-4 bg-white">
+        <Form className="px-8 pt-6 mb-4 bg-white">
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="amount">
               Amount
@@ -162,19 +162,26 @@ const AddExpenseForm: React.FC<AddExpenseProps> = () => {
               </p>
             )}
           </div>
-          <div className="mb-6 text-center">
+          <div className="flex content-center flex-row-reverse px-2 py-2">
             <button
-              className={`w-full px-4 py-2 font-bold bg-indigo-200 rounded-full text-white hover:bg-indigo-300 text-indigo-700 focus:outline-none focus:shadow-outline ${
+              type="submit"
+              className={`p-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-700 focus:outline-none focus:shadow-outline rounded ${
                 !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
               }`}
-              type="submit"
               disabled={!formikBag.dirty || formikBag.isSubmitting || !formikBag.isValid}
               onClick={() => formikBag.handleSubmit}
             >
-              Add Expense
+              Submit
+            </button>
+            <button
+              type="button"
+              className="p-2 mx-2 bg-gray-200 hover:bg-gray-300 text-gray-700 focus:outline-none focus:shadow-outline rounded"
+              onClick={() => setToggle(false)}
+            >
+              Cancel
             </button>
           </div>
-          <hr className="mb-6 border-t" />
+          {/* <hr className="mb-6 border-t" /> */}
           {data?.addExpense && (
             <div className="text-center">
               <div className="inline-block text-sm text-green-500 align-baseline">
