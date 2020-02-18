@@ -15,8 +15,14 @@ const AmountChange: React.FC = () => {
       <div className="border-b sm:border-b-0 sm:border-r">
         <div className="text-gray-700 mb-2">
           <span className="text-3xl sm:text-xl md:text-3xl align-top">
-            <span className="text-green-500 align-top">{data.getAmountChange > 0 ? '+' : '-'}</span>
-            EUR€
+            <span
+              className={` ${
+                data.getAmountChange > 0 ? 'text-green-500' : 'text-red-500'
+              } align-top`}
+            >
+              {data.getAmountChange > 0 ? '+' : '-'}
+            </span>
+            €
           </span>
           <span className="text-5xl">{integer}</span>
           <span className="text-3xl sm:text-xl md:text-3xl align-top">

@@ -15,7 +15,7 @@ const AmountSpent: React.FC = () => {
     <div className="w-full sm:w-1/3 text-center py-8">
       <div className="border-b sm:border-b-0 sm:border-r">
         <div className="text-gray-700 mb-2">
-          <span className="text-3xl sm:text-xl md:text-3xl align-top">EUR€</span>
+          <span className="text-3xl sm:text-xl md:text-3xl align-top">€</span>
           <span className="text-5xl">{integer}</span>
           <span className="text-3xl sm:text-xl md:text-3xl align-top">
             <span>.</span>

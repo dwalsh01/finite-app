@@ -7,7 +7,7 @@ import DateSelection from './DateSelection';
 export const splitAmount = (value: number) => {
   const integer = Math.floor(value);
   const decimal = +(value % 1).toFixed(2) * 100;
-  return { integer, decimal: Math.abs(decimal) };
+  return { integer: Math.abs(integer), decimal: Math.abs(decimal) };
 };
 
 const CurrentTrends: React.FC = () => (
