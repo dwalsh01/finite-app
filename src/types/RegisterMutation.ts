@@ -19,6 +19,7 @@ export interface RegisterMutation_register_user {
   __typename: "User";
   id: string;
   email: string;
+  name: string;
   expenses: RegisterMutation_register_user_expenses[] | null;
 }
 
@@ -35,4 +36,5 @@ export interface RegisterMutation {
 export interface RegisterMutationVariables {
   email: string;
   password: string;
+  name: string;
 }

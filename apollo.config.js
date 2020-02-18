@@ -5,5 +5,5 @@ module.exports = {
       localSchemaFile: './schema.json',
     },
   },
-  // includes: ['./src/types/*.ts'],
+  includes: ['./src/types/*.ts'],
 };

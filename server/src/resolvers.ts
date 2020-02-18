@@ -139,7 +139,7 @@ const resolvers: IResolvers = {
     },
   },
   Mutation: {
-    register: async (_, { email, password }, { req }) => {
+    register: async (_, { email, password, name }, { req }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const userRepo = getMongoRepository(User);
       const manager = getMongoManager();
@@ -147,7 +147,7 @@ const resolvers: IResolvers = {
         where: { email },
       });
       if (!checkUser) {
-        const user = User.create({ email, password: hashedPassword });
+        const user = User.create({ email, password: hashedPassword, name });
         await manager.save(user);
         req.session.userId = user.id;
         return {

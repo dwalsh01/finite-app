@@ -6,6 +6,7 @@ const typeDefs = gql`
   type User {
     id: ID!
     email: String!
+    name: String!
     expenses: [Expense!]
   }
   type Expense {
@@ -41,7 +42,7 @@ const typeDefs = gql`
     reason: String!
   }
   type Mutation {
-    register(email: String!, password: String!): Register!
+    register(email: String!, password: String!, name: String!): Register!
     login(email: String!, password: String!): LoginResult
     addExpense(
       dateOfExpense: String

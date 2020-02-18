@@ -41,7 +41,7 @@ const ViewExpensesPage: React.FC = () => {
         {!expenses ? (
           <div className="text-center p-6">
             <h1 className="text-xl font-bold">You have no expenses to date!</h1>
-            <div>Add some expenses to get started</div>
+            <div className="my-4">Add some expenses to get started</div>
             <AddExpenseModal />
           </div>
         ) : (

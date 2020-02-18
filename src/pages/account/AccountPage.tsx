@@ -19,7 +19,7 @@ const AccountInfo: React.FC = () => {
     <div className="mx-8 p-8 border border-gray-800 shadow-lg rounded-lg text-center ">
       <div className="h-16 w-16 bg-green-500 rounded-full mx-auto" />
       <div className="text-center">
-        <h2 className="text-lg">{data.me?.email || null}</h2>
+        <h2 className="text-lg">{data.me?.name || null}</h2>
         <div className="text-green-500">Standard User</div>
         <div className="text-gray-600">{data.me?.email || null}</div>
       </div>

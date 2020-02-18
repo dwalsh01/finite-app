@@ -10,6 +10,9 @@ class User extends BaseEntity {
   email: string;
 
   @Column('text')
+  name: string;
+
+  @Column('text')
   password: string;
 
   @Column(() => Expenses)

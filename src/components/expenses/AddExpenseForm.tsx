@@ -10,6 +10,7 @@ import AddExpenseValidation from '../../yup/AddExpenseValidation';
 import GET_TOTAL_FOR_MONTH from '../../graphql/GetTotalExpensesForMonth';
 import GET_AMOUNT_CHANGE from '../../graphql/GetAmountChange';
 import GET_PERCENTAGE_CHANGE from '../../graphql/GetPercentageChange';
+import GET_RECENT_EXPENSES from '../../graphql/GetRecentExpenses';
 
 interface FormValues {
   dateOfExpense: string;
@@ -50,6 +51,12 @@ const AddExpenseForm: React.FC<AddExpenseProps> = ({ setToggle }) => {
             { query: GET_TOTAL_FOR_MONTH },
             { query: GET_AMOUNT_CHANGE },
             { query: GET_PERCENTAGE_CHANGE },
+            {
+              query: GET_RECENT_EXPENSES,
+              variables: {
+                first: 5,
+              },
+            },
           ],
         });
         if (response?.data?.addExpense) {
