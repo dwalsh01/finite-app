@@ -92,7 +92,11 @@ const LForm: React.FC<RouteComponentProps> = () => {
           <div className="mb-6 text-center">
             <button
               className={`w-full px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline ${
-                !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                !formikBag.dirty ||
+                formikBag.isSubmitting ||
+                Object.keys(formikBag.errors).length !== 0
+                  ? 'opacity-50 cursor-not-allowed'
+                  : ''
               }`}
               type="submit"
               disabled={!formikBag.dirty || formikBag.isSubmitting}

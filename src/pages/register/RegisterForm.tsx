@@ -29,6 +29,7 @@ const RForm: React.FC<RouteComponentProps> = () => {
       },
     },
   );
+
   const handleSubmit = async (
     values: RegisterFormValues,
     formikHelpers: FormikHelpers<RegisterFormValues>,
@@ -115,18 +116,18 @@ const RForm: React.FC<RouteComponentProps> = () => {
           <div className="mb-6 text-center">
             <button
               className={`w-full px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-700 focus:outline-none focus:shadow-outline ${
-                !formikBag.dirty || formikBag.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                !formikBag.dirty ||
+                formikBag.isSubmitting ||
+                Object.keys(formikBag.errors).length !== 0
+                  ? 'opacity-50 cursor-not-allowed'
+                  : ''
               }`}
               type="submit"
-              // () => {
-              //   if (formikBag.dirty) {
-              //     if (formikBag.isValid) {
-              //       return false;
-              //     }
-              //   }
-              //   return false;
-              // }
-              disabled={!formikBag.dirty || !formikBag.isValid}
+              disabled={
+                !formikBag.dirty ||
+                formikBag.isSubmitting ||
+                Object.keys(formikBag.errors).length !== 0
+              }
               onClick={() => formikBag.handleSubmit}
             >
               Register
