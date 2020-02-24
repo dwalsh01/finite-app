@@ -11,7 +11,7 @@ const Card = styled.div`
   ${tw`sm:mx-2 w-full sm:w-1/3 md:w-1/4 lg:w-1/5 my-10 md:mx-5 bg-white max-w-sm rounded overflow-hidden shadow-lg`}
 `;
 
-const checkColor = (sector: string) => {
+export const checkColor = (sector: string) => {
   switch (sector) {
     case 'Entertainment':
       return 'bg-blue-300';

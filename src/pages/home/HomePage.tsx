@@ -17,7 +17,6 @@ const HomePage: React.FC = () => {
     return null;
   }
 
-  // TODO: update this for when users initially begin, show what information could be shown?
   return (
     <>
       <div className="container mx-auto lg:px-8">

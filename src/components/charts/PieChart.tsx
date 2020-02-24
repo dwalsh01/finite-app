@@ -34,14 +34,14 @@ export const CustomTooltip = ({ active, payload }: TooltipProps) => {
   return null;
 };
 
-const TWColors: any = {
-  Food: tailwindTheme.colors.purple[400],
-  Entertainment: tailwindTheme.colors.blue[300],
-  Miscellaneous: tailwindTheme.colors.indigo[400],
-  Fashion: tailwindTheme.colors.pink[400],
-  Health: tailwindTheme.colors.green[300],
-  Education: tailwindTheme.colors.teal[300],
-  Beauty: tailwindTheme.colors.yellow[300],
+export const TWColors: any = {
+  Food: tailwindTheme.colors.purple[500],
+  Entertainment: tailwindTheme.colors.blue[500],
+  Miscellaneous: tailwindTheme.colors.indigo[500],
+  Fashion: tailwindTheme.colors.pink[500],
+  Health: tailwindTheme.colors.green[500],
+  Education: tailwindTheme.colors.teal[500],
+  Beauty: tailwindTheme.colors.yellow[500],
 };
 
 interface ExpensesProps {

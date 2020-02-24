@@ -1,20 +1,10 @@
 import React from 'react';
 
-export const SECTORS = [
-  'Entertainment',
-  'Health',
-  'Food',
-  'Education',
-  'Beauty',
-  'Fashion',
-  'Miscellaneous',
-];
-
-interface SelectFilterProps {
-  setSelectedSector: React.Dispatch<React.SetStateAction<string | null>>;
-  selectedSector: null | string;
+interface SelectedTypeProps {
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>;
+  selectedType: string;
 }
-const SelectFilter: React.FC<SelectFilterProps> = ({ setSelectedSector, selectedSector }) => (
+const SelectExpenseType: React.FC<SelectedTypeProps> = ({ setSelectedType, selectedType }) => (
   <div className="w-full px-2 mt-4 mb-4">
     <label
       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -25,19 +15,13 @@ const SelectFilter: React.FC<SelectFilterProps> = ({ setSelectedSector, selected
         <select
           className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-lg"
           id="sector"
-          value={selectedSector || 'All'}
+          value={selectedType}
           onChange={event => {
-            if (event.target.value === 'All') {
-              setSelectedSector(null);
-            } else {
-              setSelectedSector(event.target.value);
-            }
+            setSelectedType(event.target.value);
           }}
         >
-          <option>All</option>
-          {SECTORS.map(sector => (
-            <option key={sector}>{sector}</option>
-          ))}
+          <option>Cards</option>
+          <option>Table</option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
           <svg
@@ -53,4 +37,4 @@ const SelectFilter: React.FC<SelectFilterProps> = ({ setSelectedSector, selected
   </div>
 );
 
-export default SelectFilter;
+export default SelectExpenseType;

@@ -50,7 +50,7 @@ const Activities: React.FC = () => {
 
 const TrendsCharts: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);
-  const [chartType, setChartType] = React.useState<'Pie Chart' | 'Crawl Chart'>('Crawl Chart');
+  const [chartType, setChartType] = React.useState<'Pie Chart' | 'Crawl Chart'>('Pie Chart');
   if (loading || !data) {
     return null;
   }

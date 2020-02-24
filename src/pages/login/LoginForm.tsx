@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter, NavLink, useHistory } from 'react-rout
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { Formik, FormikProps, Form, FormikHelpers } from 'formik';
 import ME_QUERY from '../../graphql/GetUser';
-import UserValidation from '../../yup/UserValidation';
+import { UserLoginValidation } from '../../yup/UserValidation';
 import LOGIN_MUTATION from '../../graphql/LoginUser';
 import { LoginMutationVariables, LoginMutation } from '../../types/LoginMutation';
 
@@ -33,6 +33,7 @@ const LForm: React.FC<RouteComponentProps> = () => {
       await client.resetStore();
     }
     formikHelpers.setSubmitting(false);
+    console.log(`handle submit`);
     await mutate({
       variables: { ...values },
     }).then(response => {
@@ -45,7 +46,7 @@ const LForm: React.FC<RouteComponentProps> = () => {
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      validationSchema={UserValidation}
+      validationSchema={UserLoginValidation}
       onSubmit={handleSubmit}
     >
       {(formikBag: FormikProps<LoginFormValues>) => (
