@@ -1,0 +1,23 @@
+{
+  "name": "cron",
+  "version": "1.0.0",
+  "description": "cron server for finite",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.7.4",
+    "@types/node-cron": "^2.0.3",
+    "express": "^4.17.1",
+    "node-cron": "^2.0.3",
+    "typescript": "^3.8.2"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "start": "nodemon"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2"
+  }
+}
