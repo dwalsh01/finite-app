@@ -1,8 +1,9 @@
 import * as cron from 'node-cron';
+// import getUser from './jobs/index';
 
 function runCronJobs() {
   cron.schedule('* * * * *', () => {
-    console.log(`running every minute`);
+    // getUser();
   });
 }
 
