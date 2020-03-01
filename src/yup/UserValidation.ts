@@ -10,6 +10,7 @@ const UserValidation = yup.object().shape({
     .string()
     .min(1)
     .required('Name Required!'),
+  currency: yup.string().required('Currency Required'),
 });
 
 export const UserLoginValidation = yup.object().shape({

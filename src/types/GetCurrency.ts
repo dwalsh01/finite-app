@@ -3,15 +3,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetAmountChange
+// GraphQL query operation: GetCurrency
 // ====================================================
 
-export interface GetAmountChange_me {
+export interface GetCurrency_me {
   __typename: "User";
   currency: string;
 }
 
-export interface GetAmountChange {
-  getAmountChange: number;
-  me: GetAmountChange_me | null;
+export interface GetCurrency {
+  me: GetCurrency_me | null;
 }

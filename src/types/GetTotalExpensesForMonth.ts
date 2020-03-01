@@ -6,6 +6,12 @@
 // GraphQL query operation: GetTotalExpensesForMonth
 // ====================================================
 
+export interface GetTotalExpensesForMonth_me {
+  __typename: "User";
+  currency: string;
+}
+
 export interface GetTotalExpensesForMonth {
   getTotalForMonth: number;
+  me: GetTotalExpensesForMonth_me | null;
 }

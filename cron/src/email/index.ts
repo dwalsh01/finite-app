@@ -18,6 +18,6 @@ export const createMailOptions = (email: string) => {
     from: `${process.env.GMAIL}`,
     to: `${email}`,
     subject: 'FINAL test of your email',
-    html: '<p>Your html here</p>',
+    html: `<p> here is the email </p>`,
   };
 };

@@ -8,6 +8,7 @@ const typeDefs = gql`
     email: String!
     name: String!
     expenses: [Expense!]
+    currency: String!
   }
   type Expense {
     id: ID!
@@ -23,12 +24,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User
-    getExpenses: GetExpenses
-    getTotalForMonth: Float!
-    getAmountChange: Float!
-    getPercentageChange: Float!
-    getRecentExpenses(first: Int!): [Expense!]!
+    me(id: ID): User
+    getExpenses(id: ID): GetExpenses
+    getTotalForMonth(id: ID): Float!
+    getAmountChange(id: ID): Float!
+    getPercentageChange(id: ID): Float!
+    getRecentExpenses(first: Int!, id: ID): [Expense!]!
   }
 
   type Register {
@@ -42,7 +43,7 @@ const typeDefs = gql`
     reason: String!
   }
   type Mutation {
-    register(email: String!, password: String!, name: String!): Register!
+    register(email: String!, password: String!, name: String!, currency: String!): Register!
     login(email: String!, password: String!): LoginResult
     addExpense(
       dateOfExpense: String

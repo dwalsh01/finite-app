@@ -6,12 +6,16 @@ import ME_QUERY from '../../graphql/GetUser';
 import UserValidation from '../../yup/UserValidation';
 import { RegisterMutation, RegisterMutationVariables } from '../../types/RegisterMutation';
 import REGISTER_MUTATION from '../../graphql/RegisterUser';
+import CURRENCIES, { Currency } from '../../utils/currencies';
 // TODO: fix login and register form validation
 interface RegisterFormValues {
   email: string;
   password: string;
   name: string;
+  currency: string;
 }
+export const getKeyValue = (key: string) => (obj: Record<string, Currency>) => obj[key];
+
 const RForm: React.FC<RouteComponentProps> = () => {
   const client = useApolloClient();
   const history = useHistory();
@@ -49,7 +53,7 @@ const RForm: React.FC<RouteComponentProps> = () => {
 
   return (
     <Formik
-      initialValues={{ email: '', password: '', name: '' }}
+      initialValues={{ email: '', password: '', name: '', currency: 'EUR' }}
       validationSchema={UserValidation}
       onSubmit={handleSubmit}
     >
@@ -93,7 +97,47 @@ const RForm: React.FC<RouteComponentProps> = () => {
               />
             </label>
           </div>
-
+          <div className="w-full mb-4">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="currency"
+            >
+              Categories
+              <div className="relative">
+                <select
+                  className={`block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
+                    formikBag.errors.currency ? 'border-red-500' : ''
+                  }`}
+                  id="currency"
+                  value={formikBag.values.currency}
+                  onChange={event => formikBag.setFieldValue('currency', event.target.value)}
+                  onBlur={formikBag.handleBlur}
+                >
+                  {Object.keys(CURRENCIES).map((key: string) => {
+                    return (
+                      <option key={key} value={key}>
+                        {`${getKeyValue(key)(CURRENCIES).name} - ${
+                          getKeyValue(key)(CURRENCIES).symbol
+                        }`}
+                      </option>
+                    );
+                  })}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    className="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>
+              </div>
+            </label>
+            {formikBag.errors.currency && (
+              <p className="text-xs italic text-red-500">Please a valid number.</p>
+            )}
+          </div>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
               Password

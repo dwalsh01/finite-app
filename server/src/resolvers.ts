@@ -12,23 +12,27 @@ import sortExpenses from './utils/sortExpenses';
 
 const resolvers: IResolvers = {
   Query: {
-    me: async (_, __, { req }) => {
-      if (!req.session.userId) {
+    me: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
         return null;
       }
-      return User.findOne(req.session.userId);
+      if (req.session.userId) {
+        return User.findOne(req.session.userId);
+      }
+      return User.findOne(id);
     },
-    getExpenses: async (_, __, { req }) => {
-      if (!req.session.userId) {
+    getExpenses: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
         return null;
       }
+      const ID = id || req.session.userId;
       const now = new Date();
       const first = new Date(getYear(now), getMonth(now), 1);
       const last = lastDayOfMonth(now);
       const firstLastMonth = new Date(getYear(now), getMonth(now) - 1, 1);
       const lastLastMonth = lastDayOfMonth(new Date(getYear(now), getMonth(now) - 1, 1));
       const days = eachDay(first, last);
-      const user = await User.findOne(req.session.userId);
+      const user = await User.findOne(ID);
       // eslint-disable-next-line
       const expensesThisMonth: any[] = [];
       // eslint-disable-next-line
@@ -57,11 +61,12 @@ const resolvers: IResolvers = {
         expensesLastMonth,
       };
     },
-    getAmountChange: async (_, __, { req }) => {
-      if (!req.session.userId) {
+    getAmountChange: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
         return 0;
       }
-      const user = await User.findOne(req.session.userId);
+      const ID = id || req.session.userId;
+      const user = await User.findOne(ID);
       if (user && user.expenses) {
         let totalThisMonth = 0;
         let totalLastMonth = 0;
@@ -77,11 +82,12 @@ const resolvers: IResolvers = {
       }
       return 0;
     },
-    getTotalForMonth: async (_, __, { req }) => {
-      if (!req.session.userId) {
+    getTotalForMonth: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
         return 0;
       }
-      const user = await User.findOne(req.session.userId);
+      const ID = id || req.session.userId;
+      const user = await User.findOne(ID);
       if (user) {
         if (user.expenses) {
           const now = new Date();
@@ -100,11 +106,12 @@ const resolvers: IResolvers = {
       }
       return 0;
     },
-    getPercentageChange: async (_, __, { req }) => {
-      if (!req.session.userId) {
+    getPercentageChange: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
         return 0;
       }
-      const user = await User.findOne(req.session.userId);
+      const ID = id || req.session.userId;
+      const user = await User.findOne(ID);
       let totalForMonth = 0;
       let totalLastMonth = 0;
       if (user) {
@@ -125,21 +132,22 @@ const resolvers: IResolvers = {
 
       return ((totalForMonth - totalLastMonth) / totalForMonth) * 100;
     },
-    getRecentExpenses: async (_, args, { req }) => {
-      if (!req.session.userId) {
+    getRecentExpenses: async (_, { first, id }, { req }) => {
+      if (!req.session.userId && !id) {
         return [];
       }
-      const user = await User.findOne(req.session.userId);
+      const ID = id || req.session.userId;
+      const user = await User.findOne(ID);
       if (user && user.expenses) {
         return sortExpenses(user.expenses)
           .reverse()
-          .slice(0, args.first);
+          .slice(0, first);
       }
       return [];
     },
   },
   Mutation: {
-    register: async (_, { email, password, name }, { req }) => {
+    register: async (_, { email, password, name, currency }, { req }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const userRepo = getMongoRepository(User);
       const manager = getMongoManager();
@@ -147,7 +155,7 @@ const resolvers: IResolvers = {
         where: { email },
       });
       if (!checkUser) {
-        const user = User.create({ email, password: hashedPassword, name });
+        const user = User.create({ email, password: hashedPassword, name, currency });
         await manager.save(user);
         req.session.userId = user.id;
         return {

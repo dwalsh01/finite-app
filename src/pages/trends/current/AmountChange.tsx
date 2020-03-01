@@ -3,12 +3,15 @@ import { useQuery } from '@apollo/react-hooks';
 import { GetAmountChange } from '../../../types/GetAmountChange';
 import GET_AMOUNT_CHANGE from '../../../graphql/GetAmountChange';
 import { splitAmount } from './CurrentTrends';
+import { getKeyValue } from '../../register/RegisterForm';
+import CURRENCIES from '../../../utils/currencies';
 
 const AmountChange: React.FC = () => {
   const { data, loading } = useQuery<GetAmountChange>(GET_AMOUNT_CHANGE);
   if (loading || !data) {
     return null;
   }
+
   const { decimal, integer } = splitAmount(data.getAmountChange);
   return (
     <div className="w-full sm:w-1/3 text-center py-8">
@@ -22,7 +25,7 @@ const AmountChange: React.FC = () => {
             >
               {data.getAmountChange > 0 ? '+' : '-'}
             </span>
-            €
+            {data.me?.currency && getKeyValue(data.me?.currency)(CURRENCIES).symbol}
           </span>
           <span className="text-5xl">{integer}</span>
           <span className="text-3xl sm:text-xl md:text-3xl align-top">

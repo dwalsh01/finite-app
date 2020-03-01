@@ -6,6 +6,15 @@ const LOGIN_MUTATION = gql`
       user {
         id
         email
+        name
+        expenses {
+          amount
+          dateOfExpense
+          description
+          id
+          sectorOfExpense
+        }
+        currency
       }
       error
       reason

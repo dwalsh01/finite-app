@@ -1,6 +1,8 @@
 import { getMongoManager } from 'typeorm';
 import User from '../entity/User';
 import { createMailOptions, transporter } from '../email';
+import apolloFetch from '../gql/createFetch';
+import GET_USER_INFORMATION from '../gql';
 
 const getUser = async () => {
   const manager = getMongoManager();
@@ -15,7 +17,7 @@ export const getAllUsers = async () => {
   return null;
 };
 
-const sendEmailToUsers = async () => {
+export const sendEmailToUsers = async () => {
   const users = await getAllUsers();
   if (users) {
     users.forEach(user => {
@@ -25,13 +27,28 @@ const sendEmailToUsers = async () => {
           if (err) {
             console.log(err);
           }
-          console.log(`old: `, info);
+          console.log(`info: `, info);
         });
       }
     });
   }
 };
-export const testingFunction = () => {
+export const apolloFetchExample = async () => {
+  const users = await getAllUsers();
+  if (users) {
+    users.forEach(user => {
+      const me = user.email === 'daraghwalsh97@gmail.com';
+      if (me) {
+        apolloFetch({ query: GET_USER_INFORMATION, variables: { id: user.id } }).then(result => {
+          const { data, errors } = result;
+          console.log(data, errors);
+        });
+      }
+    });
+  }
+};
+
+export const testingFunction = async () => {
   sendEmailToUsers();
 };
 

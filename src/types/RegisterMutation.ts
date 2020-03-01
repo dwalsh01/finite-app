@@ -37,4 +37,5 @@ export interface RegisterMutationVariables {
   email: string;
   password: string;
   name: string;
+  currency: string;
 }

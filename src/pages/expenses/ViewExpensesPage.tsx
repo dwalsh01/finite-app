@@ -36,7 +36,6 @@ const ViewExpensesPage: React.FC = () => {
     }
     return <RenderExpenses today={today} selectedSector={selectedSector} expenses={exp} />;
   };
-  console.log(expenses);
   return (
     <>
       <div className="container mx-auto lg:px-8">

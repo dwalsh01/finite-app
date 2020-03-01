@@ -11,6 +11,7 @@ export interface MeQuery_me {
   id: string;
   email: string;
   name: string;
+  currency: string;
 }
 
 export interface MeQuery {

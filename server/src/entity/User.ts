@@ -13,6 +13,9 @@ class User extends BaseEntity {
   name: string;
 
   @Column('text')
+  currency: string;
+
+  @Column('text')
   password: string;
 
   @Column(() => Expenses)

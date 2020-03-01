@@ -22,6 +22,7 @@ const startServer = async () => {
     useNewUrlParser: true,
     entities: [User],
   });
+
   const app = express();
 
   app.use(
@@ -31,12 +32,11 @@ const startServer = async () => {
       resave: false,
     }),
   );
-
   server.applyMiddleware({
     app,
     cors: {
       credentials: true,
-      origin: 'http://localhost:3000',
+      origin: ['http://localhost:3000', 'http://localhost:4001'],
     },
   });
 
