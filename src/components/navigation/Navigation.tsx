@@ -25,9 +25,9 @@ const Navigation: React.FC = () => {
       <nav className={`${hidden ? 'hidden' : 'block text-center'} md:flex text-lg`}>
         {paths.includes(pathname) ? (
           <>
-            <NavigationLink to="/">Home</NavigationLink>
-            <NavigationLink to="/services">Services</NavigationLink>
-            <NavigationLink to="/about">About</NavigationLink>
+            <NavigationLink exact to="/">
+              Home
+            </NavigationLink>
             <NavigationLink to="/contact">Contact</NavigationLink>
             <NavigationLink to="/faq">FAQ</NavigationLink>
             <LogoutButtonCheck />
