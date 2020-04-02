@@ -20,7 +20,6 @@ const AddExpenseModal: React.FC = () => {
     <div className="flex items-center justify-center overflow-auto text-base">
       <button
         type="button"
-        // className="p-2 mx-2 bg-green-200 hover:bg-green-300 text-green-700 rounded uppercase"
         className="p-2 mx-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-700 rounded uppercase"
         onClick={() => setToggle(prev => !prev)}
       >

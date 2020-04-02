@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface SelectedTypeProps {
-  setSelectedType: React.Dispatch<React.SetStateAction<string>>;
-  selectedType: string;
+  setSelectedType: (value: Function | string) => void;
+  selectedType: string | any;
 }
 const SelectExpenseType: React.FC<SelectedTypeProps> = ({ setSelectedType, selectedType }) => (
   <div className="w-full px-2 mt-4 mb-4">

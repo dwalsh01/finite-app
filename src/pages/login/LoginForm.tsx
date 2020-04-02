@@ -33,7 +33,6 @@ const LForm: React.FC<RouteComponentProps> = () => {
       await client.resetStore();
     }
     formikHelpers.setSubmitting(false);
-    console.log(`handle submit`);
     await mutate({
       variables: { ...values },
     }).then(response => {

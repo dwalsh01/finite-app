@@ -8,6 +8,7 @@
 
 export interface GetAmountChange_me {
   __typename: "User";
+  id: string;
   currency: string;
 }
 

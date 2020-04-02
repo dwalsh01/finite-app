@@ -5,12 +5,6 @@ const {
 } = require('customize-cra');
 
 module.exports = override(
-  addBabelPreset(
-    '@emotion/babel-preset-css-prop',
-  ),
-  addPostcssPlugins([
-    require('tailwindcss')(
-      './src/tailwind.config.js',
-    ),
-  ]),
+  addBabelPreset('@emotion/babel-preset-css-prop'),
+  addPostcssPlugins([require('tailwindcss')('./src/tailwind.config.js')]),
 );

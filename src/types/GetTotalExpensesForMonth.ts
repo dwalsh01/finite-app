@@ -8,6 +8,7 @@
 
 export interface GetTotalExpensesForMonth_me {
   __typename: "User";
+  id: string;
   currency: string;
 }
 

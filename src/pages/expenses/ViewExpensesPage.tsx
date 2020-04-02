@@ -2,20 +2,32 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Navigation from '../../components/navigation/Navigation';
 import GET_ALL_EXPENSES from '../../graphql/GetAllExpenses';
-import { GetExpenses, GetExpenses_me_expenses } from '../../types/GetExpenses';
+import { GetExpenses } from '../../types/GetExpenses';
 import { sortExpensesByDate } from '../../utils/sortExpenses';
 import isToday from '../../utils/isToday';
 import AddExpenseModal from '../../components/modal/AddExpenseModal';
 import SelectFilter from './RenderOptions';
 import SelectExpenseType from '../../components/table/TableOption';
-import RenderExpenses from './RenderExpenses';
-import ExpensesTable from '../../components/table/ExpensesTable';
+
+import DatePicker from '../../components/table/DatePicker';
+import RenderOnType from '../../components/table/RenderOnType';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const ViewExpensesPage: React.FC = () => {
   const { data, loading } = useQuery<GetExpenses>(GET_ALL_EXPENSES);
   const [today, setToday] = React.useState(false);
   const [selectedSector, setSelectedSector] = React.useState<null | string>(null);
-  const [expenseType, setExpenseType] = React.useState('Cards');
+  const [expType, setExpType] = useLocalStorage('finite:expenses-view', 'Cards');
+  const [filteredDates, setFilteredDates] = React.useState(() => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date();
+    end.setHours(0, 0, 0, 0);
+    return {
+      startDate: start,
+      endDate: end,
+    };
+  });
   React.useEffect(() => {
     document.title = 'Finite | View Expenses';
     if (data?.me?.expenses) {
@@ -30,12 +42,6 @@ const ViewExpensesPage: React.FC = () => {
     return null;
   }
   const { expenses } = data.me;
-  const RenderOnType = (exp: GetExpenses_me_expenses[]) => {
-    if (expenseType === 'Table') {
-      return <ExpensesTable selectedSector={selectedSector} expenses={exp} />;
-    }
-    return <RenderExpenses today={today} selectedSector={selectedSector} expenses={exp} />;
-  };
   return (
     <>
       <div className="container mx-auto lg:px-8">
@@ -50,6 +56,9 @@ const ViewExpensesPage: React.FC = () => {
           </div>
         ) : (
           <>
+            <div className="flex justify-center">
+              <DatePicker setFilteredDates={setFilteredDates} filteredDates={filteredDates} />
+            </div>
             <div className="md:flex mb-4">
               <div className="w-full md:w-1/4 py-4 md:ml-2 bg-gray-400 shadow-lg rounded">
                 <div className="flex flex-wrap justify-center">
@@ -57,11 +66,11 @@ const ViewExpensesPage: React.FC = () => {
                     setSelectedSector={setSelectedSector}
                     selectedSector={selectedSector}
                   />
-                  <SelectExpenseType setSelectedType={setExpenseType} selectedType={expenseType} />
+                  <SelectExpenseType setSelectedType={setExpType} selectedType={expType} />
                 </div>
               </div>
               <div className="w-full md:w-3/4 md:mx-4 bg-gray-100 shadow-lg rounded lg:p-4">
-                {RenderOnType(expenses)}
+                {RenderOnType(expenses, expType, today, selectedSector, filteredDates)}
               </div>
             </div>
           </>

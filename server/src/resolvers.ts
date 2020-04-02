@@ -7,8 +7,14 @@ import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import Expenses from './entity/Expenses';
 import User from './entity/User';
-import { isThisMonth, isPreviousMonth } from './utils/getThisMonthExpenses';
+import {
+  isThisMonth,
+  isPreviousMonth,
+  isThisMonthInc,
+  isPreviousMonthInc,
+} from './utils/getThisMonthExpenses';
 import sortExpenses from './utils/sortExpenses';
+import Income from './entity/Income';
 
 const resolvers: IResolvers = {
   Query: {
@@ -106,6 +112,32 @@ const resolvers: IResolvers = {
       }
       return 0;
     },
+    getTotalIncomeForMonth: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
+        return 0;
+      }
+      const ID = id || req.session.userId;
+      const user = await User.findOne(ID);
+      if (user) {
+        if (user.income) {
+          const now = new Date();
+          let total = 0;
+          console.log(user.income);
+          user.income.forEach(inc => {
+            const income = new Date(inc.date);
+            if (
+              income.getMonth() === now.getMonth() &&
+              income.getFullYear() === now.getFullYear()
+            ) {
+              console.log(income, inc);
+              total += inc.amount;
+            }
+          });
+          return total;
+        }
+      }
+      return 0;
+    },
     getPercentageChange: async (_, { id }, { req }) => {
       if (!req.session.userId && !id) {
         return 0;
@@ -145,6 +177,51 @@ const resolvers: IResolvers = {
       }
       return [];
     },
+    getIncome: async (_, __, { req }) => {
+      if (!req.session.userId) {
+        return [];
+      }
+      const user = await User.findOne(req.session.userId);
+      if (user) {
+        const thisMonth: Income[] = [];
+        let total = 0;
+        if (user.income) {
+          user.income.forEach(inc => {
+            if (isThisMonthInc(inc.date)) {
+              thisMonth.push(inc);
+              total += inc.amount;
+            }
+          });
+        }
+        return {
+          income: thisMonth,
+          currency: user.currency,
+          total,
+        };
+      }
+      return [];
+    },
+    getIncomeFigures: async (_, { id }, { req }) => {
+      if (!req.session.userId && !id) {
+        return 0;
+      }
+      const ID = id || req.session.userId;
+      const user = await User.findOne(ID);
+      if (user && user.income) {
+        let totalThisMonth = 0;
+        let totalLastMonth = 0;
+        user.income.forEach(income => {
+          if (isThisMonthInc(income.date)) totalThisMonth += income.amount;
+          if (isPreviousMonthInc(income.date)) totalLastMonth += income.amount;
+        });
+        return {
+          totalThisMonth,
+          amountDifference: totalThisMonth - totalLastMonth,
+          percentageDifference: ((totalThisMonth - totalLastMonth) / totalThisMonth) * 100 || 0,
+        };
+      }
+      return 0;
+    },
   },
   Mutation: {
     register: async (_, { email, password, name, currency }, { req }) => {
@@ -155,7 +232,7 @@ const resolvers: IResolvers = {
         where: { email },
       });
       if (!checkUser) {
-        const user = User.create({ email, password: hashedPassword, name, currency });
+        const user = User.create({ email, password: hashedPassword, name, currency, income: [] });
         await manager.save(user);
         req.session.userId = user.id;
         return {
@@ -198,6 +275,60 @@ const resolvers: IResolvers = {
       if (req.session.userId) {
         req.session.destroy();
         return true;
+      }
+      return false;
+    },
+    addIncome: async (_, { date, sector, description, amount }, { req }) => {
+      if (!req.session.userId) {
+        return false;
+      }
+      const userRepo = getMongoRepository(User);
+      const user = await userRepo.findOne({
+        where: {
+          _id: new mongodb.ObjectID(req.session.userId),
+        },
+      });
+      if (user) {
+        let { income } = user;
+        const inc = new Income(date, sector, description, amount);
+        if (income) {
+          income.push(inc);
+        } else {
+          income = [inc];
+        }
+        const insert = await userRepo.findOneAndUpdate({ _id: user.id }, { $set: { income } });
+        if (insert.ok === 1) {
+          return true;
+        }
+      }
+      return false;
+    },
+    updateExpenses: async (_, { updatedExpenses }, { req }) => {
+      if (!req.session.userId) {
+        return false;
+      }
+      const userRepo = getMongoRepository(User);
+      const user = await userRepo.findOne({
+        where: { _id: new mongodb.ObjectID(req.session.userId) },
+      });
+      if (user && user.expenses) {
+        const { expenses } = user;
+        updatedExpenses.forEach((expense: any) => {
+          const matchIndex = expenses.findIndex(item => item.id === expense.id);
+
+          if (matchIndex !== -1) {
+            expenses[matchIndex] = new Expenses(
+              expense.dateOfExpense,
+              expense.sectorOfExpense,
+              expense.description,
+              parseFloat(expense.amount),
+            );
+          }
+        });
+        const insert = await userRepo.findOneAndUpdate({ _id: user.id }, { $set: { expenses } });
+        if (insert.ok === 1) {
+          return true;
+        }
       }
       return false;
     },

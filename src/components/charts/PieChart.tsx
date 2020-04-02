@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, PieChart, Pie, Legend, Cell, Tooltip, TooltipProps } from 'recharts';
+import { ResponsiveContainer, PieChart, Pie, Legend, Cell, Tooltip } from 'recharts';
 import { GetExpensesThisMonth_getExpenses_expensesThisMonth } from '../../types/GetExpensesThisMonth';
 import { sortExpensesForPC } from '../../utils/sortExpenses';
 import numberWithCommas from '../../utils/formatAmount';
@@ -19,7 +19,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
-export const CustomTooltip = ({ active, payload }: TooltipProps) => {
+export const CustomTooltip = ({ active, payload }: any) => {
   if (active) {
     return (
       <div className="shadow-lg bg-gray-100 rounded p-2 text-center">
@@ -83,7 +83,7 @@ export const ExpensesPieChart: React.FC<ExpensesProps> = ({ expenses }) => {
           nameKey="sector"
           fill="#8884d8"
           labelLine={false}
-          label={renderCustomizedLabel}
+          // label={renderCustomizedLabel}
         >
           {sortedExpenses.map((exp, index) => {
             return (

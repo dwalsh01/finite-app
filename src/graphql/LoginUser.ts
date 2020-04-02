@@ -7,6 +7,13 @@ const LOGIN_MUTATION = gql`
         id
         email
         name
+        income {
+          id
+          date
+          sector
+          description
+          amount
+        }
         expenses {
           amount
           dateOfExpense

@@ -4,7 +4,9 @@ import { GetExpensesThisMonth } from '../../types/GetExpensesThisMonth';
 import GET_THIS_MONTH_EXPENSES from '../../graphql/ExpensesThisMonth';
 import AddExpenseModal from '../../components/modal/AddExpenseModal';
 import Navigation from '../../components/navigation/Navigation';
-import Trends from '../trends/TrendsPage';
+import ExpensesTrends from '../trends/TrendsPage';
+import AddIncomeModal from '../../components/income/AddIncomeModal';
+import IncomeTrends from '../../components/income/IncomeTrends';
 
 const HomePage: React.FC = () => {
   const { data, loading } = useQuery<GetExpensesThisMonth>(GET_THIS_MONTH_EXPENSES);
@@ -30,8 +32,16 @@ const HomePage: React.FC = () => {
         </div>
       ) : (
         <>
-          <AddExpenseModal />
-          <Trends />
+          <>
+            <div className="py-2">
+              <AddExpenseModal />
+            </div>
+            <div className="py-2">
+              <AddIncomeModal />
+            </div>
+          </>
+          <IncomeTrends />
+          <ExpensesTrends />
         </>
       )}
     </>

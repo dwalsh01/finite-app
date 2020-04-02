@@ -7,7 +7,6 @@ import {
   YAxis,
   Tooltip,
   Line,
-  Label,
 } from 'recharts';
 import { useQuery } from '@apollo/react-hooks';
 import { GetExpensesThisMonth_getExpenses_expensesThisMonth } from '../../types/GetExpensesThisMonth';
@@ -64,17 +63,13 @@ const ExpensesCrawlChart: React.FC<ExpensesCrawlProps> = ({ expenses }) => {
   return (
     // aspect={4.0 / 3.0}
     <ResponsiveContainer width="100%" height="100%" aspect={4.0 / 3.0}>
-      <LineChart margin={{ top: 5, right: 30, left: 30, bottom: 20 }}>
+      <LineChart data={sorted} margin={{ top: 5, right: 30, left: 30, bottom: 20 }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" tick={Tick}>
-          <Label value="Date of Month" offset={0} position="bottom" />
-        </XAxis>
-        <YAxis label={{ value: 'Amount (€)', angle: -90, position: 'insideLeft' }} />
+        <YAxis />
         <Tooltip content={CustomTooltip} />
         <Line
           type="monotone"
           dataKey="amount"
-          data={sorted}
           strokeWidth={2}
           stroke={tailwindTheme.colors.green[500]}
         />
@@ -91,15 +86,14 @@ export const LastMonthExpenses: React.FC = () => {
   const sortedLastMonth = sortSecondExpense(data.getExpenses.expensesLastMonth);
   return (
     <ResponsiveContainer>
-      <LineChart>
+      <LineChart data={sortedLastMonth}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" tick={Tick} />
-        <YAxis />
+        <XAxis dataKey="date" />
+        <YAxis dataKey="amount" />
         <Tooltip content={CustomTooltip} />
         <Line
           type="monotone"
           dataKey="amount"
-          data={sortedLastMonth}
           stroke={tailwindTheme.colors.green[500]}
           strokeWidth={2}
         />

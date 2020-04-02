@@ -1,5 +1,6 @@
 import { Entity, ObjectIdColumn, ObjectID, Column, BaseEntity } from 'typeorm';
 import Expenses from './Expenses';
+import Income from './Income';
 
 @Entity('users')
 class User extends BaseEntity {
@@ -20,6 +21,9 @@ class User extends BaseEntity {
 
   @Column(() => Expenses)
   expenses: Expenses[];
+
+  @Column(() => Income)
+  income: Income[];
 }
 
 export default User;

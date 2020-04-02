@@ -72,7 +72,7 @@ const TrendsCharts: React.FC = () => {
       <div className="bg-white h-full border-t border-b sm:rounded sm:border shadow">
         <div className="border-b">
           <div className="flex justify-between px-6 -mb-px">
-            <h3 className="text-blue-dark py-4 font-normal text-lg">Expenses Charts</h3>
+            <h3 className="text-gray-800 py-4 font-normal text-xl">Expenses Charts</h3>
             <ChartSelection chart={chartType} setChart={setChartType} />
           </div>
         </div>

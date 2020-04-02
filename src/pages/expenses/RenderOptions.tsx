@@ -15,7 +15,7 @@ interface SelectFilterProps {
   selectedSector: null | string;
 }
 const SelectFilter: React.FC<SelectFilterProps> = ({ setSelectedSector, selectedSector }) => (
-  <div className="w-full px-2 mt-4 mb-4">
+  <div className="w-full px-2 mt-4">
     <label
       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
       htmlFor="sector"

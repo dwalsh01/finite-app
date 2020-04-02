@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -13,6 +14,7 @@ module.exports = {
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
+    "tw": true
   },
   parser: '@typescript-eslint/parser',
   "parserOptions": {
@@ -35,9 +37,6 @@ module.exports = {
       }
     }
   },
-  "globals": {
-    "tw": true
-  },
   "rules": {
     "no-plusplus": 0,
     "camelcase": 0,
@@ -52,6 +51,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/camelcase': 'off',
+    "@typescript-eslint/no-explicit-any": 0,
     'no-console': 0
   }
 };
