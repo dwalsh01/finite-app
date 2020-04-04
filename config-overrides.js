@@ -6,5 +6,5 @@ const {
 
 module.exports = override(
   addBabelPreset('@emotion/babel-preset-css-prop'),
-  addPostcssPlugins([require('tailwindcss')('./src/tailwind.config.js')]),
+  addPostcssPlugins([require('tailwindcss')('./src/styles/tailwind.js')]),
 );
